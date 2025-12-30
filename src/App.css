@@ -1,38 +1,165 @@
-.App {
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap");
+
+:root {
+  --dark-green: #1a3c28;
+  --bright-orange: #e65c40;
+  --cream-bg: #fff2d9;
+  --light-cream: #fff9ef;
+}
+
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: white;
+}
+
+/* HERO SECTION */
+.logo {
+  color: white;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+.logo span {
+  color: var(--bright-orange);
+}
+
+.hero {
+  min-height: 60vh;
+  background: linear-gradient(rgba(27, 117, 36, 0.5), rgba(27, 117, 36, 0.5)),
+    url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1500");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 120px 0; /* Vertical space to protect the logo/bottom edge */
+  position: relative;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.hero-content h1 span {
+  color: var(--bright-orange);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--bright-orange);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid white;
+  color: white;
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+/* MISSION*/
+.mission-section {
+  padding: 80px 10%;
+  background-color: var(--cream-bg);
+  text-align: center;
+}
+.section-label {
+  color: var(--bright-orange);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+.mission-wrapper h2 {
+  font-size: 2.5rem;
+  color: var(--dark-green);
+  margin: 20px 0;
+  font-weight: 800;
+}
+.mission-wrapper p {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* IMPACT CARDS - THE OVERLAP SECRET */
+/* --- STATS SECTION (Now just sits naturally below Mission) --- */
+.stats-container {
+  padding: 60px 10%;
+  background-color: var(--light-cream);
+}
+
+.stats-grid {
+  display: grid;
+  /* Desktop: 4 columns */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.stat-card {
+  background: white;
+  padding: 40px 20px;
+  border-radius: 20px;
+  text-align: center;
+  /* A subtle shadow so they look like distinct cards but don't float away */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+/* CAUSES - CREAM SECTION */
+.causes-section {
+  background-color: var(--cream-bg);
+  padding: 150px 10% 100px; /* Top padding extra because stats overlap the space */
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.App-link {
-  color: #61dafb;
-}
+@media (max-width: 600px) {
+  /* 1. Stack the Hero Buttons */
+  .hero-btns {
+    display: flex;
+    flex-direction: column; /* This changes them from side-by-side to vertical */
+    gap: 15px; /* Adds space between the top and bottom button */
+    padding: 0 20px; /* Optional: keeps them from hitting the screen edges */
+    align-items: center;
+  }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  /* .hero-btns button {
+    width: %;
+    margin: 0;
+  } */
 }
