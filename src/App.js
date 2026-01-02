@@ -10,15 +10,16 @@ function App() {
         <div className="hero-content">
           <div className="logo">
             HOPE<span>SHELTER</span>
+            <sup>&trade;</sup>
           </div>
-          <span className="badge">Making a Difference</span>
           <h1>
             Transform Lives Through <br />
             <span>Compassion</span>
           </h1>
           <p>
             Your generosity brings hope to those who need it most.
-            <br /> Together, we create lasting change for the poor, homeless,
+            <br /> Together, we create lasting change for the poor, homeless,{" "}
+            <br className="desktop-break" />
             and orphans.
           </p>
           <div className="hero-btns">
@@ -31,34 +32,44 @@ function App() {
       {/* 2. The Mission (White Clean Section) */}
       <section className="mission-section">
         <div className="mission-wrapper">
-          <span className="section-label">Our Mission</span>
-          <h2>A small act of kindness can change a life forever</h2>
-          <p>
-            We believe every person deserves dignity and opportunity. Our
-            mission is to provide essential support to the poor, shelter to the
-            homeless, and a loving future for orphans.
+          <h1>Our Mission</h1>
+          <p className="mission-lead">
+            We believe every person deserves dignity, care, and opportunity. Our
+            mission is to provide essential support to the poor, shelter and
+            hope to the homeless, and a loving future for orphaned children.
+          </p>
+          <p className="mission-detail">
+            Through your generous donations, we deliver food, shelter,
+            education, and medical care to those who need it most. Every
+            contribution makes a direct impact on real lives.
           </p>
         </div>
       </section>
 
-      {/* 3. Impact Stats (Overlapping the boundary) */}
+      {/* 3. Making a difference/Stats and impact section */}
       <div className="stats-container">
-        <div className="stats-grid">
-          <div className="stat-card">
-            <h3>50,000+</h3>
-            <p>Lives Impacted</p>
+        <div className="stats-wrapper">
+          <div className="stats-header">
+            <h1>Making a Difference</h1>
+            <p>See the impact of your generosity in numbers</p>
           </div>
-          <div className="stat-card">
-            <h3>2,500+</h3>
-            <p>Shelters Provided</p>
-          </div>
-          <div className="stat-card">
-            <h3>15,000+</h3>
-            <p>Meals Served</p>
-          </div>
-          <div className="stat-card">
-            <h3>3,000+</h3>
-            <p>Children Supported</p>
+          <div className="stats-grid">
+            <div className="stat-card">
+              <h3>50,000+</h3>
+              <p>Lives Impacted</p>
+            </div>
+            <div className="stat-card">
+              <h3>2,500+</h3>
+              <p>Shelters Provided</p>
+            </div>
+            <div className="stat-card">
+              <h3>15,000+</h3>
+              <p>Meals Served</p>
+            </div>
+            <div className="stat-card">
+              <h3>3,000+</h3>
+              <p>Children Supported</p>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 :root {
   --dark-green: #1a3c28;
+  --light-green: #48783c;
   --bright-orange: #e65c40;
   --cream-bg: #fff2d9;
   --light-cream: #fff9ef;
@@ -14,15 +15,6 @@ body {
 }
 
 /* HERO SECTION */
-.logo {
-  color: white;
-  font-weight: 800;
-  font-size: 1.5rem;
-}
-.logo span {
-  color: var(--bright-orange);
-}
-
 .hero {
   min-height: 60vh;
   background: linear-gradient(rgba(27, 117, 36, 0.5), rgba(27, 117, 36, 0.5)),
@@ -33,23 +25,45 @@ body {
   justify-content: center;
   color: white;
   text-align: center;
-  padding: 120px 0; /* Vertical space to protect the logo/bottom edge */
+  padding: 100px 0; /* Vertical space to protect the logo/bottom edge */
   position: relative;
 }
 
-.hero-content h1 {
-  font-size: 3rem;
+.logo {
+  color: white;
   font-weight: 800;
-  line-height: 1.1;
-  margin: 0;
+  font-size: 1.5rem;
+}
+.logo span {
+  color: var(--bright-orange);
+}
+.logo sup {
+  font-size: 0.8rem;
+  top: -0.8em;
+  margin-left: 2px;
+  font-weight: 400;
+  color: var(--light-cream);
+  vertical-align: super;
+}
+
+.hero-content h1 {
+  font-size: 4.2rem;
+  font-weight: 1000;
+  /* line-height: 1.1; */
+  /* margin: 0; */
+  margin-top: 50px;
 }
 
 .hero-content h1 span {
   color: var(--bright-orange);
 }
 
+.desktop-break {
+  display: block;
+}
 .hero-content p {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  margin-bottom: 60px;
 }
 
 .hero-btns {
@@ -75,41 +89,63 @@ body {
   border-radius: 50px;
   font-weight: 800;
   cursor: pointer;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 /* MISSION*/
 .mission-section {
-  padding: 80px 10%;
+  padding: 65px 5%;
   background-color: var(--cream-bg);
   text-align: center;
 }
-.section-label {
-  color: var(--bright-orange);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.9rem;
-}
-.mission-wrapper h2 {
-  font-size: 2.5rem;
+
+.mission-wrapper h1 {
+  font-size: 2.2rem;
   color: var(--dark-green);
-  margin: 20px 0;
+  margin: px 0;
   font-weight: 800;
 }
 .mission-wrapper p {
-  font-size: 1.2rem;
-  color: #555;
-  max-width: 800px;
-  margin: 0 auto;
+  color: var(--light-green);
+}
+.mission-lead {
+  font-size: 1.1rem; /* Larger text for the core message */
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.mission-detail {
+  font-size: 1rem;
   line-height: 1.8;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
-/* IMPACT CARDS - THE OVERLAP SECRET */
-/* --- STATS SECTION (Now just sits naturally below Mission) --- */
+/*3. Making a difference/Stats and impact section */
 .stats-container {
-  padding: 60px 10%;
+  width: 100%;
   background-color: var(--light-cream);
+  padding: 65px 20px;
+  text-align: center;
+}
+
+.stats-wrapper {
+  max-width: 1200px; /* Matches your standard site width */
+  margin: 0 auto; /* Centers the box horizontally */
+  width: 100%;
+}
+
+.stats-header {
+  margin-bottom: 60px;
+}
+.stats-wrapper h1 {
+  font-size: 2.2rem;
+  color: var(--dark-green);
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+.stats-wrapper p {
+  color: var(--light-green);
+  font-size: 1.2rem;
 }
 
 .stats-grid {
@@ -117,6 +153,7 @@ body {
   /* Desktop: 4 columns */
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
+  margin-top: 40px;
 }
 
 .stat-card {
@@ -143,8 +180,24 @@ body {
 }
 
 @media (max-width: 768px) {
+  .desktop-break {
+    display: none;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+  .hero-content h1 {
+    font-size: 3rem;
+    font-weight: 1000;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 60px;
+    line-height: 1.7;
   }
 }
 
@@ -157,9 +210,4 @@ body {
     padding: 0 20px; /* Optional: keeps them from hitting the screen edges */
     align-items: center;
   }
-
-  /* .hero-btns button {
-    width: %;
-    margin: 0;
-  } */
 }
