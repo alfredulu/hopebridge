@@ -13,11 +13,29 @@ const CauseCard = ({
 
   return (
     <div className="cause-card">
-      <img src={image} className="card-img" alt={title} />
+      <div className="card-img-container">
+        <img src={image} className="card-img" alt={title} />
+        <div className="image-fade-overlay"></div>
+      </div>
       <div className="card-body">
         <div className="icon-circle-floating">{icon}</div>
         <h3>{title}</h3>
         <p>{description}</p>
+
+        <div className="progress-container" style={{ margin: "20px 0" }}>
+          <div className="progress-stats">
+            <span>Raised: ${raised.toLocaleString()}</span>
+            <span>{percentage}%</span>
+          </div>
+          <div className="progress-bar-bg">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
+          <div className="goal-text">Goal: ${goal.toLocaleString()}</div>
+        </div>
+
         <ul
           className="cause-list"
           style={{
