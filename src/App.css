@@ -378,6 +378,11 @@ body {
   margin-top: 20px;
 }
 
+.input-label::after {
+  content: " *";
+  color: #c76d5a; /* Using your --bright-orange color */
+}
+
 .amount-grid-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -429,6 +434,22 @@ body {
   font-size: 1.1rem;
   margin-top: 30px;
   cursor: pointer;
+}
+
+/* Animation for the Thank You message */
+.thank-you-message {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tax-info {

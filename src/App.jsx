@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import CauseCard from "./components/CauseCard";
 import {
@@ -17,9 +17,14 @@ import {
 
 function App() {
   const donationRef = useRef(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  const handleDonation = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
   };
 
   return (
@@ -231,59 +236,99 @@ function App() {
             </p>
           </div>
           <div className="donation-card-form">
-            <div className="form-inner">
-              <h3>Donation Details</h3>
-              <p className="form-subtitle">
-                Your donation is secure and goes directly to helping those in
-                need
-              </p>
+            {!submitted ? (
+              <form onSubmit={handleDonation}>
+                <div className="form-inner">
+                  <h3>Donation Details</h3>
+                  <p className="form-subtitle">
+                    Your info helps us send your tax-deductible receipt and
+                    impact updates.
+                  </p>
 
-              <label className="input-label">Select Amount</label>
-              <div className="amount-grid-options">
-                <button className="amt-opt">$25</button>
-                <button className="amt-opt">$50</button>
-                <button className="amt-opt">$100</button>
-                <button className="amt-opt">$250</button>
+                  <label className="input-label">Select Amount</label>
+                  <div className="amount-grid-options">
+                    <button className="amt-opt">$25</button>
+                    <button className="amt-opt">$50</button>
+                    <button className="amt-opt">$100</button>
+                    <button className="amt-opt">$250</button>
+                  </div>
+                  <button className="custom-amt-btn">Custom Amount</button>
+
+                  <label className="input-label">Enter Amount ($)</label>
+                  <input
+                    type="number"
+                    className="form-input-field"
+                    defaultValue="Minimum $10"
+                    required
+                  />
+
+                  <label className="input-label">Donation Category</label>
+                  <select className="form-input-field">
+                    <option>All Causes</option>
+                    <option>Help the Poor</option>
+                    <option>Support the Homeless</option>
+                    <option>Care for Orphans</option>
+                  </select>
+
+                  <label className="input-label">Full Name</label>
+                  <input
+                    type="text"
+                    className="form-input-field"
+                    placeholder="Enter your full name"
+                    required
+                  />
+
+                  <label className="input-label">Email Address</label>
+                  <input
+                    type="email"
+                    className="form-input-field"
+                    placeholder="yourname@example.com"
+                    required
+                  />
+
+                  <button type="submit" className="complete-donation-btn">
+                    Complete Donation
+                  </button>
+                  <p className="tax-info">
+                    Your donation is tax-deductible. A receipt will be sent to
+                    your email.
+                  </p>
+                </div>
+              </form>
+            ) : (
+              <div
+                className="thank-you-message"
+                style={{ textAlign: "center", padding: "40px 0" }}
+              >
+                <div
+                  className="icon-circle"
+                  style={{ margin: "0 auto 20px", background: "#e8f0e9" }}
+                >
+                  <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
+                </div>
+                <h2
+                  style={{ color: "var(--dark-green)", marginBottom: "10px" }}
+                >
+                  Thank You, Hero!
+                </h2>
+                <p style={{ color: "var(--light-green)", fontSize: "1.1rem" }}>
+                  Your generous gift has been received. We've sent a receipt to
+                  your email. Together, we are building a bridge to a better
+                  future.
+                </p>
+                <button
+                  className="btn-secondary"
+                  style={{
+                    marginTop: "25px",
+                    color: "var(--brand-green)",
+                    borderColor: "var(--brand-green)",
+                  }}
+                  onClick={() => setSubmitted(false)}
+                >
+                  Make Another Donation
+                </button>
               </div>
-              <button className="custom-amt-btn">Custom Amount</button>
-
-              <label className="input-label">Enter Amount ($)</label>
-              <input
-                type="number"
-                className="form-input-field"
-                defaultValue="10"
-              />
-
-              <label className="input-label">Donation Category</label>
-              <select className="form-input-field">
-                <option>All Causes</option>
-                <option>Help the Poor</option>
-                <option>Support the Homeless</option>
-                <option>Care for Orphans</option>
-              </select>
-
-              <label className="input-label">Full Name</label>
-              <input
-                type="text"
-                className="form-input-field"
-                placeholder="John Doe"
-              />
-
-              <label className="input-label">Email Address</label>
-              <input
-                type="email"
-                className="form-input-field"
-                placeholder="john@gmail.com"
-              />
-
-              <button className="complete-donation-btn">
-                Complete Donation
-              </button>
-              <p className="tax-info">
-                Your donation is tax-deductible. A receipt will be sent to your
-                email.
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </section>
