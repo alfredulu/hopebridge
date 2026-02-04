@@ -7,6 +7,9 @@ import {
   updateDoc,
   doc,
   increment,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import CauseCard from "./components/CauseCard";
 import "./App.css";
@@ -31,6 +34,28 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [recentDonations, setRecentDonations] = useState([]);
+
+  // Fetch recent donations whenever the form is submitted
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const q = query(
+          collection(db, "donations"),
+          orderBy("date", "desc"),
+          limit(5)
+        );
+        const querySnapshot = await getDocs(q);
+        const docs = querySnapshot.docs.map((doc) => doc.data());
+        setRecentDonations(docs);
+      } catch (e) {
+        console.log("Error fetching recent:", e);
+      }
+    };
+
+    if (submitted) fetchRecent();
+  }, [submitted]);
 
   useEffect(() => {
     const fetchCauses = async () => {
@@ -98,9 +123,10 @@ function App() {
         );
       }
       setSubmitted(true);
+      setIsProcessing(false);
     } catch (error) {
       console.error("Donation failed:", error);
-      setIsProcessing(false); // Stop spinner if it fails
+      setIsProcessing(false);
     } finally {
       // We don't setProcessing(false) here because if it's successful,
       // the whole form disappears anyway!
@@ -326,20 +352,82 @@ function App() {
             ) : (
               <div
                 className="thank-you-message"
-                style={{ textAlign: "center", padding: "40px 0" }}
+                style={{
+                  textAlign: "center",
+                  padding: "40px 20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  minHeight: "400px",
+                  justifyContent: "center",
+                }}
               >
                 <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
-                <h2>Thank You, Hero!</h2>
+                <h2 style={{ marginTop: "20px" }}>Thank You, Hero!</h2>
                 <p>
                   Your generous gift has been received. Together, we are
                   building a bridge to a better future.
                 </p>
+
+                {/* The button is back! */}
                 <button
                   className="btn-secondary"
                   onClick={() => setSubmitted(false)}
+                  style={{
+                    backgroundColor: "#2d5a3c", // Force a background color so it's not white
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    marginTop: "20px",
+                    marginBottom: "30px",
+                    cursor: "pointer",
+                    display: "block",
+                    zIndex: 10,
+                  }}
                 >
                   Make Another Donation
                 </button>
+
+                <hr
+                  style={{
+                    width: "100%",
+                    border: "0.5px solid #eee",
+                    margin: "20px 0",
+                  }}
+                />
+
+                <div className="recent-donations" style={{ width: "100%" }}>
+                  <h4 style={{ color: "#2d5a3c", marginBottom: "15px" }}>
+                    Recent Supporters
+                  </h4>
+                  <div className="donation-list">
+                    {recentDonations.length > 0 ? (
+                      recentDonations.map((don, index) => (
+                        <div
+                          key={index}
+                          className="donation-item"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                            padding: "10px",
+                            borderBottom: "1px solid #eee",
+                          }}
+                        >
+                          <span>{don.donorName}</span>
+                          <span style={{ fontWeight: "bold" }}>
+                            ${don.amount}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ fontStyle: "italic", color: "#666" }}>
+                        Be the first to appear here!
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </div>

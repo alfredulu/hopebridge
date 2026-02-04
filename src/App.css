@@ -474,6 +474,29 @@ body {
   }
 }
 
+.donation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.donation-item {
+  background: #f9fbf9;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border-left: 4px solid #48783c;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.donation-item span {
+  font-weight: bold;
+  color: #2d5a3c;
+}
+
 .tax-info {
   text-align: center;
   color: #999;
