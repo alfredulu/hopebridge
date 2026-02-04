@@ -372,18 +372,21 @@ function App() {
                 {/* The button is back! */}
                 <button
                   className="btn-secondary"
-                  onClick={() => setSubmitted(false)}
+                  onClick={() => {
+                    setSubmitted(false);
+                    setIsProcessing(false);
+                  }}
                   style={{
-                    backgroundColor: "#2d5a3c", // Force a background color so it's not white
-                    color: "white",
-                    border: "none",
+                    backgroundColor: "#2d5a3c",
+                    color: "#ffffff",
                     padding: "12px 24px",
                     borderRadius: "8px",
                     marginTop: "20px",
                     marginBottom: "30px",
+                    border: "none",
                     cursor: "pointer",
-                    display: "block",
-                    zIndex: 10,
+                    fontWeight: "600",
+                    display: "inline-block",
                   }}
                 >
                   Make Another Donation
