@@ -29,6 +29,8 @@ import {
 import confetti from "canvas-confetti";
 
 function App() {
+  const [formError, setFormError] = useState("");
+
   const donationRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [causes, setCauses] = useState([]);
@@ -94,12 +96,13 @@ function App() {
 
   const handleDonation = async (e) => {
     e.preventDefault();
+    setFormError("");
 
     const formData = new FormData(e.target);
     const donationAmount = Number(formData.get("amount"));
 
-    if (donationAmount <= 10) {
-      alert("You cannot donate below 10 dollars. Please enter a valid amount.");
+    if (donationAmount < 10) {
+      setFormError("Minimum donation is $10. Please enter a valid amount.");
       return;
     }
 
@@ -141,9 +144,6 @@ function App() {
     } catch (error) {
       console.error("Donation failed:", error);
       setIsProcessing(false);
-    } finally {
-      // We don't setProcessing(false) here because if it's successful,
-      // the whole form disappears anyway!
     }
   };
 
@@ -268,7 +268,7 @@ function App() {
         </div>
       </section>
 
-      {/* 6. Donation Form Section - FULL RESTORE */}
+      {/* 6. Donation Form Section */}
       <section className="donation-form-section" ref={donationRef}>
         <div className="container">
           <div className="section-header-box">
@@ -344,6 +344,12 @@ function App() {
                     required
                   />
 
+                  {formError && (
+                    <div className="form-warning">
+                      <span className="warning-icon">⚠️</span> {formError}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     className="complete-donation-btn"
@@ -385,22 +391,13 @@ function App() {
 
                 {/* The button is back! */}
                 <button
-                  className="btn-secondary"
+                  className="btn-primary"
                   onClick={() => {
                     setSubmitted(false);
                     setIsProcessing(false);
                   }}
                   style={{
-                    backgroundColor: "#2d5a3c",
-                    color: "#ffffff",
-                    padding: "12px 24px",
-                    borderRadius: "8px",
                     marginTop: "20px",
-                    marginBottom: "30px",
-                    border: "none",
-                    cursor: "pointer",
-                    fontWeight: "600",
-                    display: "inline-block",
                   }}
                 >
                   Make Another Donation
