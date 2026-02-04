@@ -396,9 +396,6 @@ function App() {
                     setSubmitted(false);
                     setIsProcessing(false);
                   }}
-                  style={{
-                    marginTop: "20px",
-                  }}
                 >
                   Make Another Donation
                 </button>
@@ -448,7 +445,7 @@ function App() {
         </div>
       </section>
 
-      {/* 7. Footer Section - FULL RESTORE */}
+      {/* 7. Footer Section */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">

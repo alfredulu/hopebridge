@@ -414,6 +414,20 @@ body {
   cursor: pointer;
 }
 
+.form-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ffeeba;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .form-input-field {
   width: 100%;
   padding: 12px;
