@@ -26,6 +26,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import confetti from "canvas-confetti";
 
 function App() {
   const donationRef = useRef(null);
@@ -90,13 +91,20 @@ function App() {
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
   const handleDonation = async (e) => {
     e.preventDefault();
-    setIsProcessing(true);
 
     const formData = new FormData(e.target);
-    const selectedCategory = formData.get("category");
     const donationAmount = Number(formData.get("amount"));
+
+    if (donationAmount <= 10) {
+      alert("You cannot donate below 10 dollars. Please enter a valid amount.");
+      return;
+    }
+
+    setIsProcessing(true);
+    const selectedCategory = formData.get("category");
 
     const donationData = {
       donorName: formData.get("fullName"),
@@ -122,6 +130,12 @@ function App() {
           )
         );
       }
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#2d5a3c", "#c76d5a", "#fff2d9"],
+      });
       setSubmitted(true);
       setIsProcessing(false);
     } catch (error) {
