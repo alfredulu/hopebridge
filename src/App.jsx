@@ -21,15 +21,33 @@ function App() {
   const donationRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [causes, setCauses] = useState([]);
+  const [loading, setLoading] = useState(true); // Added the missing state fool
 
   useEffect(() => {
     const fetchCauses = async () => {
-      const querySnapshot = await getDocs(collection(db, "causes"));
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setCauses(data);
+      try {
+        console.log("1. Starting fetch...");
+        // Ensure this matches your ROOT collection name in Firebase
+        const querySnapshot = await getDocs(collection(db, "causes"));
+
+        console.log("2. Documents found:", querySnapshot.size);
+
+        if (querySnapshot.empty) {
+          console.log("3. Database is empty or collection name is wrong.");
+        }
+
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("4. Final Data for State:", data);
+        setCauses(data);
+      } catch (error) {
+        console.log("ERROR DETECTED:", error.message);
+      } finally {
+        setLoading(false); // Now defined and working
+      }
     };
 
     fetchCauses();
@@ -142,48 +160,28 @@ function App() {
             </p>
           </div>
           <div className="causes-grid">
-            <CauseCard
-              title="Help the Poor"
-              raised={12500}
-              goal={20000}
-              icon={<HandHeart size={24} />}
-              image="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600"
-              description="Provide essential resources, food, and financial support to families living in poverty."
-              benefits={[
-                "Food supplies",
-                "Medical care",
-                "Education support",
-                "Emergency relief",
-              ]}
-            />
-            <CauseCard
-              title="Support the Homeless"
-              raised={15520}
-              goal={24800}
-              icon={<Home size={24} />}
-              image="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=600"
-              description="Offer shelter, warm meals, and pathways to stability for those without a home."
-              benefits={[
-                "Emergency shelter",
-                "Hot meals",
-                "Job training",
-                "Rehabilitation programs",
-              ]}
-            />
-            <CauseCard
-              title="Care for Orphans"
-              raised={19590}
-              goal={25000}
-              icon={<Baby size={24} />}
-              image="https://images.unsplash.com/photo-1536337005238-94b997371b40?w=600"
-              description="Give orphaned children a safe home, education, and a brighter future."
-              benefits={[
-                "Safe housing",
-                "Quality Education",
-                "Healthcare",
-                "Emotional support",
-              ]}
-            />
+            {loading ? (
+              <p style={{ textAlign: "center", width: "100%" }}>
+                Loading causes...
+              </p>
+            ) : causes.length > 0 ? (
+              causes.map((cause) => (
+                <CauseCard
+                  key={cause.id}
+                  title={cause.title}
+                  raised={cause.raised || 0}
+                  goal={cause.goal || 1000}
+                  icon={<Heart size={24} />}
+                  image={cause.image}
+                  description={cause.description}
+                  benefits={cause.benefits || []}
+                />
+              ))
+            ) : (
+              <p style={{ textAlign: "center", width: "100%" }}>
+                No active causes found.
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -234,8 +232,7 @@ function App() {
             <p>
               We believe in complete transparency. Every donation is tracked,
               and you'll receive regular updates on how your contribution is
-              making a difference. Our overhead costs are covered by separate
-              grants, ensuring your donation goes directly to those who need it.
+              making a difference.
             </p>
           </div>
         </div>
@@ -244,101 +241,52 @@ function App() {
       {/* 6. Donation Form Section */}
       <section className="donation-form-section" ref={donationRef}>
         <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Make Your Donation</h1>
-            <p className="section-lead">
-              Every contribution counts. Choose an amount below or enter your
-              own.
-            </p>
-          </div>
           <div className="donation-card-form">
             {!submitted ? (
               <form onSubmit={handleDonation}>
                 <div className="form-inner">
                   <h3>Donation Details</h3>
-                  <p className="form-subtitle">
-                    Your info helps us send your tax-deductible receipt and
-                    impact updates.
-                  </p>
-
                   <label className="input-label">Select Amount</label>
                   <div className="amount-grid-options">
-                    <button className="amt-opt">$25</button>
-                    <button className="amt-opt">$50</button>
-                    <button className="amt-opt">$100</button>
-                    <button className="amt-opt">$250</button>
+                    <button type="button" className="amt-opt">
+                      $25
+                    </button>
+                    <button type="button" className="amt-opt">
+                      $50
+                    </button>
+                    <button type="button" className="amt-opt">
+                      $100
+                    </button>
                   </div>
-                  <button className="custom-amt-btn">Custom Amount</button>
-
-                  <label className="input-label">Enter Amount ($)</label>
                   <input
                     type="number"
                     className="form-input-field"
-                    defaultValue="Minimum $10"
+                    placeholder="Enter Amount ($)"
                     required
                   />
-
-                  <label className="input-label">Donation Category</label>
-                  <select className="form-input-field">
-                    <option>All Causes</option>
-                    <option>Help the Poor</option>
-                    <option>Support the Homeless</option>
-                    <option>Care for Orphans</option>
-                  </select>
-
-                  <label className="input-label">Full Name</label>
                   <input
                     type="text"
                     className="form-input-field"
-                    placeholder="Enter your full name"
+                    placeholder="Full Name"
                     required
                   />
-
-                  <label className="input-label">Email Address</label>
                   <input
                     type="email"
                     className="form-input-field"
-                    placeholder="yourname@example.com"
+                    placeholder="Email Address"
                     required
                   />
-
                   <button type="submit" className="complete-donation-btn">
                     Complete Donation
                   </button>
-                  <p className="tax-info">
-                    Your donation is tax-deductible. A receipt will be sent to
-                    your email.
-                  </p>
                 </div>
               </form>
             ) : (
-              <div
-                className="thank-you-message"
-                style={{ textAlign: "center", padding: "40px 0" }}
-              >
-                <div
-                  className="icon-circle"
-                  style={{ margin: "0 auto 20px", background: "#e8f0e9" }}
-                >
-                  <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
-                </div>
-                <h2
-                  style={{ color: "var(--dark-green)", marginBottom: "10px" }}
-                >
-                  Thank You, Hero!
-                </h2>
-                <p style={{ color: "var(--light-green)", fontSize: "1.1rem" }}>
-                  Your generous gift has been received. We've sent a receipt to
-                  your email. Together, we are building a bridge to a better
-                  future.
-                </p>
+              <div style={{ textAlign: "center", padding: "40px 0" }}>
+                <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
+                <h2>Thank You, Hero!</h2>
                 <button
                   className="btn-secondary"
-                  style={{
-                    marginTop: "25px",
-                    color: "var(--brand-green)",
-                    borderColor: "var(--brand-green)",
-                  }}
                   onClick={() => setSubmitted(false)}
                 >
                   Make Another Donation
@@ -349,51 +297,9 @@ function App() {
         </div>
       </section>
 
-      {/* 7. Footer Section */}
       <footer className="footer">
         <div className="container">
-          <div className="footer-content">
-            <div className="footer-col brand-col">
-              <h3>
-                <Heart size={24} fill="white" className="footer-heart" />{" "}
-                <div className="logo">
-                  HOPE<span>BRIDGE</span>
-                  <sup>&trade;</sup>
-                </div>
-              </h3>
-              <p>
-                Transforming lives through compassion and generosity. Together,
-                we create lasting change.
-              </p>
-            </div>
-            <div className="footer-col">
-              <h4>Quick Links</h4>
-              <ul>
-                <li>About Us</li>
-                <li>Our Programs</li>
-                <li>Impact Reports</li>
-                <li>Get Involved</li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Contact Us</h4>
-              <p>
-                <Mail size={16} /> contact@hopebridge.org
-              </p>
-              <p>
-                <Phone size={16} /> +1 (555) 123-4567
-              </p>
-              <p>
-                <MapPin size={16} /> 123 Bridge Street, Hope City
-              </p>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              © 2026 HOPE<span>BRIDGE</span>
-              <sup>&trade;</sup>. All rights reserved.
-            </p>
-          </div>
+          <p>© 2026 HOPE BRIDGE™. All rights reserved.</p>
         </div>
       </footer>
     </div>
