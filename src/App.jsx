@@ -314,6 +314,7 @@ function App() {
                     className="form-input-field"
                     placeholder="Minimum $10"
                     required
+                    onFocus={() => setFormError("")}
                   />
 
                   <label className="input-label">Donation Category</label>
@@ -389,7 +390,6 @@ function App() {
                   building a bridge to a better future.
                 </p>
 
-                {/* The button is back! */}
                 <button
                   className="btn-primary"
                   onClick={() => {
