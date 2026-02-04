@@ -1,6 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { db } from "./firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  increment,
+} from "firebase/firestore";
 import CauseCard from "./components/CauseCard";
 import "./App.css";
 import {
@@ -56,9 +63,46 @@ function App() {
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const handleDonation = (e) => {
+  const handleDonation = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+
+    const formData = new FormData(e.target);
+    const selectedCategory = formData.get("category");
+    const donationAmount = Number(formData.get("amount"));
+
+    const donationData = {
+      donorName: formData.get("fullName"),
+      donorEmail: formData.get("email"),
+      amount: donationAmount,
+      category: selectedCategory,
+      date: new Date().toISOString(),
+    };
+
+    try {
+      await addDoc(collection(db, "donations"), donationData);
+
+      const causeToUpdate = causes.find((c) => c.title === selectedCategory);
+
+      if (causeToUpdate) {
+        const causeRef = doc(db, "causes", causeToUpdate.id);
+
+        await updateDoc(causeRef, {
+          raised: increment(donationAmount),
+        });
+
+        setCauses((prevCauses) =>
+          prevCauses.map((c) =>
+            c.id === causeToUpdate.id
+              ? { ...c, raised: c.raised + donationAmount }
+              : c
+          )
+        );
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Donation failed:", error);
+    }
   };
 
   return (
@@ -164,88 +208,44 @@ function App() {
               <p style={{ textAlign: "center", width: "100%" }}>
                 Loading causes...
               </p>
-            ) : causes.length > 0 ? (
-              causes.map((item) => (
+            ) : (
+              causes.map((cause) => (
                 <CauseCard
-                  key={item.id}
-                  title={item.title}
-                  raised={item.raised || 0}
-                  goal={item.goal || 1000}
+                  key={cause.id}
+                  title={cause.title}
+                  raised={cause.raised}
+                  goal={cause.goal}
                   icon={<Heart size={24} />}
-                  image={item.image}
-                  description={item.description}
-                  benefits={item.benefits || []}
+                  image={cause.image}
+                  description={cause.description}
+                  benefits={cause.benefits || []}
                 />
               ))
-            ) : (
-              <p style={{ textAlign: "center", width: "100%" }}>
-                No active causes found.
-              </p>
             )}
           </div>
         </div>
       </section>
 
-      {/* 5. How it works */}
-      <section className="how-it-works">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">How It Works</h1>
-            <p className="section-lead">
-              Your journey from donation to impact in three simple steps
-            </p>
-          </div>
-          <div className="steps-wrapper">
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <HandHeart size={32} />
-              </div>
-              <h3>You Donate</h3>
-              <p>
-                Choose an amount and select the cause closest to your heart.
-                Every dollar counts.
-              </p>
-            </div>
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <TrendingUp size={32} />
-              </div>
-              <h3>We Distribute</h3>
-              <p>
-                100% of your donation goes directly to programs that help those
-                in need.
-              </p>
-            </div>
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <Smile size={32} />
-              </div>
-              <h3>Lives Transform</h3>
-              <p>
-                See the impact through regular updates and stories of hope and
-                recovery.
-              </p>
-            </div>
-          </div>
-          <div className="transparency-card">
-            <h3>100% Transparency</h3>
-            <p>
-              We believe in complete transparency. Every donation is tracked,
-              and you'll receive regular updates on how your contribution is
-              making a difference.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Donation Form Section */}
+      {/* 6. Donation Form Section - FULL RESTORE */}
       <section className="donation-form-section" ref={donationRef}>
         <div className="container">
+          <div className="section-header-box">
+            <h1 className="section-title">Make Your Donation</h1>
+            <p className="section-lead">
+              Every contribution counts. Choose an amount below or enter your
+              own.
+            </p>
+          </div>
           <div className="donation-card-form">
             {!submitted ? (
               <form onSubmit={handleDonation}>
                 <div className="form-inner">
                   <h3>Donation Details</h3>
+                  <p className="form-subtitle">
+                    Your info helps us send your tax-deductible receipt and
+                    impact updates.
+                  </p>
+
                   <label className="input-label">Select Amount</label>
                   <div className="amount-grid-options">
                     <button type="button" className="amt-opt">
@@ -257,34 +257,71 @@ function App() {
                     <button type="button" className="amt-opt">
                       $100
                     </button>
+                    <button type="button" className="amt-opt">
+                      $250
+                    </button>
                   </div>
+                  <button type="button" className="custom-amt-btn">
+                    Custom Amount
+                  </button>
+
+                  <label className="input-label">Enter Amount ($)</label>
                   <input
                     type="number"
+                    name="amount"
                     className="form-input-field"
-                    placeholder="Enter Amount ($)"
+                    placeholder="Minimum $10"
                     required
                   />
+
+                  <label className="input-label">Donation Category</label>
+                  <select name="category" className="form-input-field">
+                    <option>All Causes</option>
+                    {causes.map((c) => (
+                      <option key={c.id} value={c.title}>
+                        {c.title}
+                      </option>
+                    ))}
+                  </select>
+
+                  <label className="input-label">Full Name</label>
                   <input
                     type="text"
+                    name="fullName"
                     className="form-input-field"
-                    placeholder="Full Name"
+                    placeholder="Enter your full name"
                     required
                   />
+
+                  <label className="input-label">Email Address</label>
                   <input
                     type="email"
+                    name="email"
                     className="form-input-field"
-                    placeholder="Email Address"
+                    placeholder="yourname@example.com"
                     required
                   />
+
                   <button type="submit" className="complete-donation-btn">
                     Complete Donation
                   </button>
+                  <p className="tax-info">
+                    Your donation is tax-deductible. A receipt will be sent to
+                    your email.
+                  </p>
                 </div>
               </form>
             ) : (
-              <div style={{ textAlign: "center", padding: "40px 0" }}>
+              <div
+                className="thank-you-message"
+                style={{ textAlign: "center", padding: "40px 0" }}
+              >
                 <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
                 <h2>Thank You, Hero!</h2>
+                <p>
+                  Your generous gift has been received. Together, we are
+                  building a bridge to a better future.
+                </p>
                 <button
                   className="btn-secondary"
                   onClick={() => setSubmitted(false)}
@@ -297,9 +334,51 @@ function App() {
         </div>
       </section>
 
+      {/* 7. Footer Section - FULL RESTORE */}
       <footer className="footer">
         <div className="container">
-          <p>© 2026 HOPE BRIDGE™. All rights reserved.</p>
+          <div className="footer-content">
+            <div className="footer-col brand-col">
+              <h3>
+                <Heart size={24} fill="white" className="footer-heart" />
+                <div className="logo">
+                  HOPE<span>BRIDGE</span>
+                  <sup>&trade;</sup>
+                </div>
+              </h3>
+              <p>
+                Transforming lives through compassion and generosity. Together,
+                we create lasting change.
+              </p>
+            </div>
+            <div className="footer-col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li>About Us</li>
+                <li>Our Programs</li>
+                <li>Impact Reports</li>
+                <li>Get Involved</li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Contact Us</h4>
+              <p>
+                <Mail size={16} /> contact@hopebridge.org
+              </p>
+              <p>
+                <Phone size={16} /> +1 (555) 123-4567
+              </p>
+              <p>
+                <MapPin size={16} /> 123 Bridge Street, Hope City
+              </p>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>
+              © 2026 HOPE<span>BRIDGE</span>
+              <sup>&trade;</sup>. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
