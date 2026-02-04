@@ -284,6 +284,23 @@ body {
   margin-top: 5px;
 }
 
+.goal-met-border {
+  border: 2px solid var(--brand-green);
+}
+
+.goal-ribbon {
+  background: var(--bright-orange);
+  color: white;
+  padding: 5px 15px;
+  position: absolute;
+  top: 10px;
+  right: -5px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  z-index: 5;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 /* 5. HOW IT WORKS */
 .how-it-works {
   padding: 60px 0;

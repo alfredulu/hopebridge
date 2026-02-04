@@ -10,13 +10,18 @@ const CauseCard = ({
   goal,
 }) => {
   const percentage = Math.round((raised / goal) * 100);
+  const isGoalMet = raised >= goal;
 
   return (
-    <div className="cause-card">
+    <div className={`cause-card ${isGoalMet ? "goal-met-border" : ""}`}>
+      {/* 1. The Ribbon logic */}
+      {isGoalMet && <div className="goal-ribbon">Goal Reached! 🎉</div>}
+
       <div className="card-img-container">
         <img src={image} className="card-img" alt={title} />
         <div className="image-fade-overlay"></div>
       </div>
+
       <div className="card-body">
         <div className="icon-circle-floating">{icon}</div>
         <h3>{title}</h3>
@@ -30,7 +35,7 @@ const CauseCard = ({
           <div className="progress-bar-bg">
             <div
               className="progress-bar-fill"
-              style={{ width: `${percentage}%` }}
+              style={{ width: `${percentage > 100 ? 100 : percentage}%` }}
             ></div>
           </div>
           <div className="goal-text">Goal: ${goal.toLocaleString()}</div>
