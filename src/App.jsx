@@ -21,13 +21,12 @@ function App() {
   const donationRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [causes, setCauses] = useState([]);
-  const [loading, setLoading] = useState(true); // Added the missing state fool
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCauses = async () => {
       try {
         console.log("1. Starting fetch...");
-        // Ensure this matches your ROOT collection name in Firebase
         const querySnapshot = await getDocs(collection(db, "causes"));
 
         console.log("2. Documents found:", querySnapshot.size);
@@ -46,7 +45,7 @@ function App() {
       } catch (error) {
         console.log("ERROR DETECTED:", error.message);
       } finally {
-        setLoading(false); // Now defined and working
+        setLoading(false);
       }
     };
 
