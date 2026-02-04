@@ -1,6 +1,8 @@
-import React, { useRef, useState } from "react";
-import "./App.css";
+import React, { useRef, useState, useEffect } from "react";
+import { db } from "./firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 import CauseCard from "./components/CauseCard";
+import "./App.css";
 import {
   Users,
   Home,
@@ -18,6 +20,20 @@ import {
 function App() {
   const donationRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
+  const [causes, setCauses] = useState([]);
+
+  useEffect(() => {
+    const fetchCauses = async () => {
+      const querySnapshot = await getDocs(collection(db, "causes"));
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCauses(data);
+    };
+
+    fetchCauses();
+  }, []);
 
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
