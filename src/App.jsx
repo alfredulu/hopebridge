@@ -30,6 +30,8 @@ function App() {
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
   useEffect(() => {
     const fetchCauses = async () => {
       try {
@@ -65,6 +67,7 @@ function App() {
   };
   const handleDonation = async (e) => {
     e.preventDefault();
+    setIsProcessing(true);
 
     const formData = new FormData(e.target);
     const selectedCategory = formData.get("category");
@@ -82,13 +85,9 @@ function App() {
       await addDoc(collection(db, "donations"), donationData);
 
       const causeToUpdate = causes.find((c) => c.title === selectedCategory);
-
       if (causeToUpdate) {
         const causeRef = doc(db, "causes", causeToUpdate.id);
-
-        await updateDoc(causeRef, {
-          raised: increment(donationAmount),
-        });
+        await updateDoc(causeRef, { raised: increment(donationAmount) });
 
         setCauses((prevCauses) =>
           prevCauses.map((c) =>
@@ -98,10 +97,13 @@ function App() {
           )
         );
       }
-
       setSubmitted(true);
     } catch (error) {
       console.error("Donation failed:", error);
+      setIsProcessing(false); // Stop spinner if it fails
+    } finally {
+      // We don't setProcessing(false) here because if it's successful,
+      // the whole form disappears anyway!
     }
   };
 
@@ -302,8 +304,18 @@ function App() {
                     required
                   />
 
-                  <button type="submit" className="complete-donation-btn">
-                    Complete Donation
+                  <button
+                    type="submit"
+                    className="complete-donation-btn"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? (
+                      <span className="spinner-container">
+                        <div className="btn-spinner"></div> Processing...
+                      </span>
+                    ) : (
+                      "Complete Donation"
+                    )}
                   </button>
                   <p className="tax-info">
                     Your donation is tax-deductible. A receipt will be sent to
