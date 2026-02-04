@@ -27,6 +27,7 @@ function App() {
     const fetchCauses = async () => {
       try {
         console.log("1. Starting fetch...");
+        console.log("Current Database ID:", db.app.options.projectId);
         const querySnapshot = await getDocs(collection(db, "causes"));
 
         console.log("2. Documents found:", querySnapshot.size);
@@ -164,16 +165,16 @@ function App() {
                 Loading causes...
               </p>
             ) : causes.length > 0 ? (
-              causes.map((cause) => (
+              causes.map((item) => (
                 <CauseCard
-                  key={cause.id}
-                  title={cause.title}
-                  raised={cause.raised || 0}
-                  goal={cause.goal || 1000}
+                  key={item.id}
+                  title={item.title}
+                  raised={item.raised || 0}
+                  goal={item.goal || 1000}
                   icon={<Heart size={24} />}
-                  image={cause.image}
-                  description={cause.description}
-                  benefits={cause.benefits || []}
+                  image={item.image}
+                  description={item.description}
+                  benefits={item.benefits || []}
                 />
               ))
             ) : (
