@@ -201,6 +201,21 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: visible;
+}
+.goal-ribbon {
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  background: var(--bright-orange);
+  color: white;
+  padding: 8px 15px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  z-index: 10;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px 0 0 4px;
 }
 .card-img {
   width: 100%;
@@ -288,17 +303,8 @@ body {
   border: 2px solid var(--brand-green);
 }
 
-.goal-ribbon {
-  background: var(--bright-orange);
-  color: white;
-  padding: 5px 15px;
-  position: absolute;
-  top: 10px;
-  right: -5px;
-  font-weight: 800;
-  font-size: 0.8rem;
-  z-index: 5;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+.goal-met-border .progress-bar-fill {
+  background-color: #2d5a3c !important;
 }
 
 /* 5. HOW IT WORKS */

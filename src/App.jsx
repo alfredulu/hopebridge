@@ -31,6 +31,8 @@ import confetti from "canvas-confetti";
 function App() {
   const [formError, setFormError] = useState("");
 
+  const amountInputRef = useRef(null);
+
   const donationRef = useRef(null);
   const [submitted, setSubmitted] = useState(false);
   const [causes, setCauses] = useState([]);
@@ -39,6 +41,8 @@ function App() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const [recentDonations, setRecentDonations] = useState([]);
+
+  const [amountValue, setAmountValue] = useState("");
 
   // Fetch recent donations whenever the form is submitted
   useEffect(() => {
@@ -100,14 +104,19 @@ function App() {
 
     const formData = new FormData(e.target);
     const donationAmount = Number(formData.get("amount"));
+    const selectedCategory = formData.get("category");
 
     if (donationAmount < 10) {
       setFormError("Minimum donation is $10. Please enter a valid amount.");
       return;
     }
 
+    if (selectedCategory === "All Causes") {
+      setFormError("Please select a specific cause to support.");
+      return;
+    }
+
     setIsProcessing(true);
-    const selectedCategory = formData.get("category");
 
     const donationData = {
       donorName: formData.get("fullName"),
@@ -128,21 +137,26 @@ function App() {
         setCauses((prevCauses) =>
           prevCauses.map((c) =>
             c.id === causeToUpdate.id
-              ? { ...c, raised: c.raised + donationAmount }
+              ? { ...c, raised: Number(c.raised) + donationAmount }
               : c
           )
         );
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ["#2d5a3c", "#c76d5a", "#fff2d9"],
+        });
+
+        setSubmitted(true);
+      } else {
+        console.error("Cause match failed for:", selectedCategory);
       }
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ["#2d5a3c", "#c76d5a", "#fff2d9"],
-      });
-      setSubmitted(true);
+
       setIsProcessing(false);
     } catch (error) {
       console.error("Donation failed:", error);
+      setFormError("Something went wrong. Please try again.");
       setIsProcessing(false);
     }
   };
@@ -261,6 +275,7 @@ function App() {
                   image={cause.image}
                   description={cause.description}
                   benefits={cause.benefits || []}
+                  onDonateClick={scrollToDonation}
                 />
               ))
             )}
@@ -290,30 +305,41 @@ function App() {
 
                   <label className="input-label">Select Amount</label>
                   <div className="amount-grid-options">
-                    <button type="button" className="amt-opt">
-                      $25
-                    </button>
-                    <button type="button" className="amt-opt">
-                      $50
-                    </button>
-                    <button type="button" className="amt-opt">
-                      $100
-                    </button>
-                    <button type="button" className="amt-opt">
-                      $250
-                    </button>
+                    {[25, 50, 100, 250].map((amt) => (
+                      <button
+                        key={amt}
+                        type="button"
+                        className="amt-opt"
+                        onClick={() => {
+                          setAmountValue(amt);
+                          setFormError(""); // Clear errors when a valid button is clicked
+                        }}
+                      >
+                        ${amt}
+                      </button>
+                    ))}
                   </div>
-                  <button type="button" className="custom-amt-btn">
+                  <button
+                    type="button"
+                    className="custom-amt-btn"
+                    onClick={() => {
+                      setAmountValue("");
+                      amountInputRef.current.focus();
+                    }}
+                  >
                     Custom Amount
                   </button>
 
                   <label className="input-label">Enter Amount ($)</label>
                   <input
+                    ref={amountInputRef}
                     type="number"
                     name="amount"
                     className="form-input-field"
                     placeholder="Minimum $10"
                     required
+                    value={amountValue} // Controlled input
+                    onChange={(e) => setAmountValue(e.target.value)} // Allow typing too
                     onFocus={() => setFormError("")}
                   />
 
