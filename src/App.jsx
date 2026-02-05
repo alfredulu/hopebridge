@@ -44,7 +44,20 @@ function App() {
 
   const [amountValue, setAmountValue] = useState("");
 
-  // Fetch recent donations whenever the form is submitted
+  const getCleanFirstName = (fullName) => {
+    if (!fullName) return "Hero";
+
+    const parts = fullName.split(/[^a-zA-Z]/).filter((part) => part.length > 0);
+
+    const realName = parts.find((part) => part.length > 1);
+
+    if (realName) {
+      return realName.charAt(0).toUpperCase() + realName.slice(1).toLowerCase();
+    }
+
+    return parts[0] || "Hero";
+  };
+
   useEffect(() => {
     const fetchRecent = async () => {
       try {
@@ -452,9 +465,21 @@ function App() {
                             borderBottom: "1px solid #eee",
                           }}
                         >
-                          <span>{don.donorName}</span>
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                            }}
+                          >
+                            {Number(don.amount) >= 500 && (
+                              <span title="Top Donor">👑</span>
+                            )}
+                            {/* 🧹 Use the cleaner function here */}
+                            {getCleanFirstName(don.donorName)}
+                          </span>
                           <span style={{ fontWeight: "bold" }}>
-                            ${don.amount}
+                            ${Number(don.amount).toLocaleString()}
                           </span>
                         </div>
                       ))
