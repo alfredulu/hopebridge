@@ -1,3 +1,5 @@
+import React from "react";
+
 const CauseCard = ({
   title,
   description,
@@ -14,12 +16,7 @@ const CauseCard = ({
 
   return (
     <div className="cause-card" style={{ position: "relative" }}>
-      {/* 🎗️ The Ribbon - Moved inside the card to ensure visibility */}
-      {isGoalMet && (
-        <div className="goal-ribbon" style={{ zIndex: 100 }}>
-          MISSION ACCOMPLISHED 🎉
-        </div>
-      )}
+      {isGoalMet && <div className="goal-ribbon">MISSION ACCOMPLISHED 🎉</div>}
 
       <div className="card-img-container">
         <img src={image} className="card-img" alt={title} />
@@ -31,12 +28,23 @@ const CauseCard = ({
         <h3>{title}</h3>
         <p>{description}</p>
 
+        <ul style={{ paddingLeft: "20px", color: "#48783c", margin: "15px 0" }}>
+          {benefits &&
+            benefits.map((item, index) => (
+              <li
+                key={index}
+                style={{ marginBottom: "5px", fontSize: "0.9rem" }}
+              >
+                {item}
+              </li>
+            ))}
+        </ul>
+
         <div className="progress-container" style={{ margin: "20px 0" }}>
           <div className="progress-stats">
             <span>Raised: ${Number(raised).toLocaleString()}</span>
             <span>{percentage}%</span>
           </div>
-
           <div className="progress-bar-bg">
             <div
               className="progress-bar-fill"
@@ -46,21 +54,13 @@ const CauseCard = ({
               }}
             ></div>
           </div>
-
-          {/* 📈 Goal Progress Text */}
           <div
             className="goal-text"
-            style={{ marginTop: "10px", fontWeight: "600" }}
+            style={{ marginTop: "10px", fontSize: "0.85rem" }}
           >
-            {isGoalMet ? (
-              <span style={{ color: "#2d5a3c" }}>
-                Goal fully funded! Thank you!
-              </span>
-            ) : (
-              <span style={{ color: "#c76d5a" }}>
-                Only ${remaining.toLocaleString()} left to reach the goal!
-              </span>
-            )}
+            {isGoalMet
+              ? "Goal met!"
+              : `Only $${remaining.toLocaleString()} left!`}
           </div>
         </div>
 
@@ -71,4 +71,5 @@ const CauseCard = ({
     </div>
   );
 };
+
 export default CauseCard;
