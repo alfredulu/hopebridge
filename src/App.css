@@ -310,7 +310,7 @@ body {
 }
 
 .goal-met-border .progress-bar-fill {
-  background-color: #2d5a3c !important;
+  background-color: var(--brand-green) !important;
 }
 
 /* 5. HOW IT WORKS */
@@ -470,7 +470,7 @@ body {
 .complete-donation-btn {
   width: 100%;
   padding: 18px;
-  background-color: #1a522a;
+  background-color: var(--dark-green);
   color: white;
   border: none;
   border-radius: 8px;
@@ -498,7 +498,7 @@ body {
 }
 
 .complete-donation-btn:disabled {
-  background-color: #6a8c73; /* Lighter green while loading */
+  background-color: color-mix(in srgb, var(--brand-green) 55%, white);
   cursor: not-allowed;
 }
 
@@ -543,7 +543,7 @@ body {
   background: #f9fbf9;
   padding: 10px 20px;
   border-radius: 20px;
-  border-left: 4px solid #48783c;
+  border-left: 4px solid var(--brand-green);
   width: 80%;
   display: flex;
   justify-content: space-between;
@@ -552,7 +552,7 @@ body {
 
 .donation-item span {
   font-weight: bold;
-  color: #2d5a3c;
+  color: var(--brand-green);
 }
 
 .tax-info {
@@ -564,7 +564,7 @@ body {
 
 /* 7. FOOTER  */
 .footer {
-  background-color: #1a522a;
+  background-color: var(--brand-green);
   color: #e8f0e9;
   padding: 35px 0 10px;
 }
