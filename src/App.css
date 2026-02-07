@@ -313,64 +313,55 @@ body {
   background-color: var(--brand-green) !important;
 }
 
-/* 5. HOW IT WORKS */
+/* 5. HOW IT WORKS - Spaced Out Edition */
 .how-it-works {
-  padding: 60px 0;
+  padding: 120px 0; /* More breathing room top and bottom */
   background-color: var(--light-cream);
+  text-align: center;
 }
+
 .steps-wrapper {
   display: flex;
   justify-content: space-between;
   position: relative;
-  margin-top: 60px;
-  gap: 40px;
+  margin-top: 80px;
+  max-width: 1080px; /* Spread them out much further */
+  margin-left: auto;
+  margin-right: auto;
 }
-.steps-wrapper::before {
-  content: "";
+
+.step-line {
   position: absolute;
   top: 40px;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background-color: #ddd;
+  left: 12%; /* Starts inside the first icon */
+  right: 12%; /* Ends inside the last icon */
+  height: 2px;
+  background-color: #e0e0e0;
   z-index: 1;
 }
+
 .step-item {
   flex: 1;
-  text-align: center;
   position: relative;
   z-index: 2;
+  padding: 0 40px; /* More space between the text blocks */
 }
+
 .step-item .icon-wrapper {
   width: 80px;
   height: 80px;
-  background-color: var(--brand-green);
+  background-color: var(--light-green);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 25px;
-  border: 8px solid var(--light-cream);
-}
-
-.transparency-card {
-  background-color: var(--cream-bg);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 900px;
-  margin: 80px auto 0;
-}
-.transparency-card h3 {
-  color: var(--dark-green);
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  font-weight: 800;
-}
-.transparency-card p {
-  color: var(--light-green);
-  line-height: 1.8;
+  margin: 0 auto 30px;
+  position: relative;
+  z-index: 3;
+  /* Very light shadow as requested */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: none;
 }
 
 /* 6. DONATION FORM SECTION  */

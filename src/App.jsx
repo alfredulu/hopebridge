@@ -327,7 +327,7 @@ function App() {
       <section className="how-it-works">
         <div className="container">
           <div className="section-header-box">
-            <h1 className="section-title">Your Journey to Impact</h1>
+            <h1 className="section-title">How It Works</h1>
             <p className="section-lead">
               Your journey from donation to impact in three simple steps
             </p>
@@ -365,6 +365,20 @@ function App() {
                 recovery.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="transparency-section">
+        <div className="container">
+          <div className="transparency-box">
+            <h2>100% Transparency</h2>
+            <p>
+              We believe in complete transparency. Every donation is tracked,
+              and you'll receive regular updates on how your contribution is
+              making a difference. Our overhead costs are covered by separate
+              grants, ensuring your donation goes directly to those who need it.
+            </p>
           </div>
         </div>
       </section>
