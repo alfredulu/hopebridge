@@ -609,12 +609,6 @@ body {
   cursor: pointer;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .complete-donation-btn:disabled {
   background-color: color-mix(in srgb, var(--brand-green) 55%, white);
   cursor: not-allowed;
@@ -633,17 +627,6 @@ body {
 
 .thank-you-message .btn-secondary:hover {
   background-color: var(--dark-green);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .donation-list {
@@ -840,6 +823,23 @@ body {
   text-align: center;
   font-size: 0.9rem;
   opacity: 0.7;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInText {
