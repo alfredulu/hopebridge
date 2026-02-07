@@ -112,6 +112,22 @@ function App() {
     fetchCauses();
   }, []);
 
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "gallery"));
+        const images = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setGalleryImages(images);
+      } catch (e) {
+        console.error("Gallery fetch failed:", e);
+      }
+    };
+    fetchGallery();
+  }, []);
+
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
   };
