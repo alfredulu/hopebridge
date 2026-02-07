@@ -569,57 +569,41 @@ function App() {
           <div className="section-header-box">
             <h1 className="section-title">Moments of Hope</h1>
             <p className="section-lead">
-              See the real impact of your generosity through the smiles of the
-              children we support.
+              Real stories and real impact, captured on the field.
             </p>
           </div>
 
           <div className="gallery-grid">
-            {/* You can map these from an array or Firebase later */}
-            <div className="gallery-item">
-              <img
-                src="https://images.unsplash.com/photo-1484950763426-56b5bf172dbb?q=80&w=800"
-                alt="Outing with kids"
-              />
-              <div className="gallery-overlay">
-                <span>Weekend Outing</span>
+            {galleryImages.map((img) => (
+              <div
+                key={img.id}
+                className="gallery-item"
+                onClick={() => setSelectedImg(img.url)}
+              >
+                <img src={img.url} alt={img.caption} />
+                <div className="gallery-overlay">
+                  <span>{img.caption}</span>
+                </div>
               </div>
-            </div>
-
-            <div className="gallery-item">
-              <img
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800"
-                alt="Helping kids"
-              />
-              <div className="gallery-overlay">
-                <span>Learning Together</span>
-              </div>
-            </div>
-
-            <div className="gallery-item">
-              <img
-                src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=800"
-                alt="Playing with kids"
-              />
-              <div className="gallery-overlay">
-                <span>Playtime</span>
-              </div>
-            </div>
-
-            <div className="gallery-item">
-              <img
-                src="https://images.unsplash.com/photo-1484665754804-74b091211472?q=80&w=800"
-                alt="New recruits"
-              />
-              <div className="gallery-overlay">
-                <span>Our Growing Family</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
+
+        {/* 💡 THE LIGHTBOX MODAL */}
+        {selectedImg && (
+          <div
+            className="lightbox-backdrop"
+            onClick={() => setSelectedImg(null)}
+          >
+            <div className="lightbox-content">
+              <img src={selectedImg} alt="Enlarged impact" />
+              <button className="close-lightbox">&times;</button>
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* 7. Footer Section */}
+      {/* 8. Footer Section */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
