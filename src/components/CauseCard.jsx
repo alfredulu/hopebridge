@@ -18,7 +18,11 @@ const CauseCard = ({
     <div className="cause-card" style={{ position: "relative" }}>
       {isGoalMet && <div className="goal-ribbon">MISSION ACCOMPLISHED 🎉</div>}
 
-      <div className="card-img-container">
+      <div
+        className="card-img-container"
+        onClick={onImageClick}
+        style={{ cursor: "pointer" }}
+      >
         <img src={image} className="card-img" alt={title} />
         <div className="image-fade-overlay"></div>
       </div>
