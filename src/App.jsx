@@ -31,6 +31,7 @@ import {
 import confetti from "canvas-confetti";
 
 function App() {
+  const [selectedCause, setSelectedCause] = useState(null);
   const [formError, setFormError] = useState("");
 
   const amountInputRef = useRef(null);
@@ -308,6 +309,7 @@ function App() {
               causes.map((cause) => (
                 <CauseCard
                   key={cause.id}
+                  {...cause}
                   title={cause.title}
                   raised={cause.raised}
                   goal={cause.goal}
@@ -316,6 +318,7 @@ function App() {
                   description={cause.description}
                   benefits={cause.benefits || []}
                   onDonateClick={scrollToDonation}
+                  onImageClick={() => setSelectedCause(cause)}
                 />
               ))
             )}
@@ -323,7 +326,6 @@ function App() {
         </div>
       </section>
 
-      {/* 5. How It Works Section */}
       {/* 5. How It Works Section */}
       <section className="how-it-works">
         <div className="container">
@@ -621,6 +623,81 @@ function App() {
           </div>
         )}
       </section>
+
+      {/* 💎 THE CAUSE MODAL (Pop-out) */}
+      {selectedCause && (
+        <div className="modal-backdrop" onClick={() => setSelectedCause(null)}>
+          <div
+            className="cause-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="close-modal"
+              onClick={() => setSelectedCause(null)}
+            >
+              &times;
+            </button>
+
+            <div className="modal-grid">
+              <div className="modal-image-side">
+                <img src={selectedCause.image} alt={selectedCause.title} />
+              </div>
+
+              <div className="modal-info-side">
+                <div className="modal-icon-circle">
+                  {iconMap[selectedCause.title] || <Heart size={24} />}
+                </div>
+                <h3>{selectedCause.title}</h3>
+
+                {/* 📖 This shows the long-form text from Firebase */}
+                <p className="full-desc">
+                  {selectedCause.fullDescription || selectedCause.description}
+                </p>
+
+                <ul className="modal-benefits">
+                  {selectedCause.benefits?.map((b, i) => (
+                    <li key={i}>• {b}</li>
+                  ))}
+                </ul>
+
+                <div className="modal-stats">
+                  <div className="progress-stats">
+                    <span>
+                      Raised: ${Number(selectedCause.raised).toLocaleString()}
+                    </span>
+                    <span>
+                      {Math.round(
+                        (selectedCause.raised / selectedCause.goal) * 100
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="progress-bar-bg">
+                    <div
+                      className="progress-bar-fill"
+                      style={{
+                        width: `${
+                          (selectedCause.raised / selectedCause.goal) * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <button
+                  className="complete-donation-btn"
+                  onClick={() => {
+                    setSelectedCause(null);
+                    scrollToDonation();
+                  }}
+                >
+                  Donate to this cause
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 8. Footer Section */}
       <footer className="footer">
