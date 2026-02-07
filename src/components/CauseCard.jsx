@@ -9,6 +9,7 @@ const CauseCard = ({
   raised,
   goal,
   onDonateClick,
+  onImageClick,
 }) => {
   const percentage = Math.round((raised / goal) * 100);
   const isGoalMet = raised >= goal;
