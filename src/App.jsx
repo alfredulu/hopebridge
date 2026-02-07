@@ -639,26 +639,22 @@ function App() {
             </button>
 
             <div className="modal-grid">
+              {/* Left Side: Image */}
               <div className="modal-image-side">
                 <img src={selectedCause.image} alt={selectedCause.title} />
               </div>
 
+              {/* Right Side: The Detailed Story */}
               <div className="modal-info-side">
                 <div className="modal-icon-circle">
                   {iconMap[selectedCause.title] || <Heart size={24} />}
                 </div>
                 <h3>{selectedCause.title}</h3>
 
-                {/* 📖 This shows the long-form text from Firebase */}
-                <p className="full-desc">
-                  {selectedCause.fullDescription || selectedCause.description}
+                {/* 🎯 Only showing the full compelling story here */}
+                <p className="full-desc-text">
+                  {selectedCause.fullDescription}
                 </p>
-
-                <ul className="modal-benefits">
-                  {selectedCause.benefits?.map((b, i) => (
-                    <li key={i}>• {b}</li>
-                  ))}
-                </ul>
 
                 <div className="modal-stats">
                   <div className="progress-stats">
