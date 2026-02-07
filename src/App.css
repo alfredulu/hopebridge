@@ -313,9 +313,9 @@ body {
   background-color: var(--brand-green) !important;
 }
 
-/* 5. HOW IT WORKS - Spaced Out Edition */
+/* 5. HOW IT WORKS */
 .how-it-works {
-  padding: 120px 0; /* More breathing room top and bottom */
+  padding: 80px 0;
   background-color: var(--light-cream);
   text-align: center;
 }
@@ -324,17 +324,17 @@ body {
   display: flex;
   justify-content: space-between;
   position: relative;
-  margin-top: 80px;
-  max-width: 1080px; /* Spread them out much further */
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 60px;
+  max-width: 1000px;
+  margin: 60px auto; /* Centered with margin */
 }
 
+/* One straight line behind icons */
 .step-line {
   position: absolute;
-  top: 40px;
-  left: 12%; /* Starts inside the first icon */
-  right: 12%; /* Ends inside the last icon */
+  top: 40px; /* Center of 80px icons */
+  left: 10%;
+  right: 10%;
   height: 2px;
   background-color: #e0e0e0;
   z-index: 1;
@@ -344,59 +344,52 @@ body {
   flex: 1;
   position: relative;
   z-index: 2;
-  padding: 0 40px; /* More space between the text blocks */
+  padding: 0 20px;
 }
 
 .step-item .icon-wrapper {
   width: 80px;
   height: 80px;
-  background-color: var(--light-green);
+  background-color: var(--dark-green);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
   position: relative;
   z-index: 3;
-  /* Very light shadow as requested */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.transparency-section {
-  /* padding: 40px 0; */
-  background-color: var(--light-cream);
-}
-
+/* Transparency Box */
 .transparency-box {
   background-color: #f2e8cf;
-  padding: 35px 25px; /* Tighter padding */
+  padding: 16px 40px;
   border-radius: 15px;
-  text-align: center;
-  max-width: 900px; /* Slimmer width */
-  margin: 0 auto;
+  max-width: 760px; /* Smaller width */
+  margin: 40px auto 0; /* Sits below the steps */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.transparency-box h2 {
+.transparency-box h2,
+.step-item h3 {
   color: var(--dark-green);
-  font-size: 1.6rem; /* Shrinking the header */
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-.transparency-box p {
+.transparency-box p,
+.step-item p {
   color: var(--light-green);
-  font-size: 0.95rem; /* Smaller, cleaner text */
+  font-size: 0.95rem;
   line-height: 1.6;
-  max-width: 750px;
-  margin: 0 auto;
 }
 
 /* 6. DONATION FORM SECTION  */
 .donation-form-section {
-  padding: 80px 0 100px;
+  padding: 55px 0 100px;
   background-color: var(--light-cream);
 }
 

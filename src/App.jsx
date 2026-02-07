@@ -324,30 +324,32 @@ function App() {
       </section>
 
       {/* 5. How It Works Section */}
+      {/* 5. How It Works Section */}
       <section className="how-it-works">
         <div className="container">
           <div className="section-header-box">
-            <h1 className="section-title">How It Works</h1>
+            <h1 className="section-title">How it works</h1>
             <p className="section-lead">
               Your journey from donation to impact in three simple steps
             </p>
           </div>
 
           <div className="steps-wrapper">
-            <div className="step-line"></div>
+            <div className="step-line"></div>{" "}
+            {/* One straight line behind icons */}
             <div className="step-item">
               <div className="icon-wrapper">
-                <HandHeart size={42} />
+                <HandHeart size={32} />
               </div>
               <h3>You Donate</h3>
               <p>
                 Choose an amount and select the cause closest to your heart.
-                Every dollar counts.
+                Every dollar counts
               </p>
             </div>
             <div className="step-item">
               <div className="icon-wrapper">
-                <TrendingUp size={42} />
+                <TrendingUp size={32} />
               </div>
               <h3>We Distribute</h3>
               <p>
@@ -357,7 +359,7 @@ function App() {
             </div>
             <div className="step-item">
               <div className="icon-wrapper">
-                <Smile size={42} />
+                <Smile size={32} />
               </div>
               <h3>Lives Transform</h3>
               <p>
@@ -366,11 +368,8 @@ function App() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="transparency-section">
-        <div className="container">
+          {/* 💎 100% Transparency Box - Now part of this section */}
           <div className="transparency-box">
             <h2>100% Transparency</h2>
             <p>
