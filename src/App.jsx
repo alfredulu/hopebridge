@@ -46,6 +46,9 @@ function App() {
 
   const [amountValue, setAmountValue] = useState("");
 
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [selectedImg, setSelectedImg] = useState(null); // For Lightbox
+
   const getCleanFirstName = (fullName) => {
     if (!fullName) return "Hero";
 
@@ -300,6 +303,46 @@ function App() {
                 />
               ))
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. How It Works Section */}
+      <section className="how-it-works">
+        <div className="container">
+          <div className="section-header-box">
+            <h1 className="section-title">How It Works</h1>
+            <p className="section-lead">
+              Your journey from compassion to lasting impact is simple and
+              transparent.
+            </p>
+          </div>
+          <div className="steps-wrapper">
+            <div className="step-item">
+              <div className="icon-wrapper">
+                <Heart size={32} />
+              </div>
+              <h3>Choose a Cause</h3>
+              <p>Select a specific project that resonates with your heart.</p>
+            </div>
+            <div className="step-item">
+              <div className="icon-wrapper">
+                <HandHeart size={32} />
+              </div>
+              <h3>Make a Donation</h3>
+              <p>
+                Your contribution goes directly to the field to provide support.
+              </p>
+            </div>
+            <div className="step-item">
+              <div className="icon-wrapper">
+                <Smile size={32} />
+              </div>
+              <h3>See the Impact</h3>
+              <p>
+                Receive updates and see how your gift is transforming lives.
+              </p>
+            </div>
           </div>
         </div>
       </section>
