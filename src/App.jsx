@@ -15,6 +15,8 @@ import CauseCard from "./components/CauseCard";
 import "./App.css";
 import {
   Users,
+  Coins,
+  Building2,
   Home,
   Utensils,
   Heart,
@@ -174,6 +176,12 @@ function App() {
     }
   };
 
+  const iconMap = {
+    "Help the Poor": <Coins size={24} />,
+    "Support the Homeless": <Building2 size={24} />,
+    "Care for Orphans": <Baby size={24} />,
+  };
+
   return (
     <div className="app-container">
       {/* 1. Hero Section */}
@@ -284,7 +292,7 @@ function App() {
                   title={cause.title}
                   raised={cause.raised}
                   goal={cause.goal}
-                  icon={<Heart size={24} />}
+                  icon={iconMap[cause.title] || <Heart size={24} />}
                   image={cause.image}
                   description={cause.description}
                   benefits={cause.benefits || []}

@@ -25,10 +25,32 @@ const CauseCard = ({
 
       <div className="card-body">
         <div className="icon-circle-floating">{icon}</div>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <h3
+          style={{
+            color: "var(--dark-green)",
+            fontWeight: "800",
+            marginBottom: "10px",
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            color: "var(--light-green)",
+            fontSize: "0.95rem",
+            lineHeight: "1.6",
+          }}
+        >
+          {description}
+        </p>
 
-        <ul style={{ paddingLeft: "20px", color: "#48783c", margin: "15px 0" }}>
+        <ul
+          style={{
+            paddingLeft: "20px",
+            color: "var(--light-green)",
+            margin: "15px 0",
+          }}
+        >
           {benefits &&
             benefits.map((item, index) => (
               <li
