@@ -17,6 +17,21 @@ const Home = ({
   iconMap,
   scrollToDonation,
   setSelectedCause,
+  donationRef,
+  handleDonation,
+  submitted,
+  setSubmitted,
+  formError,
+  setFormError,
+  amountInputRef,
+  amountValue,
+  setAmountValue,
+  isProcessing,
+  recentDonations,
+  getCleanFirstName,
+  galleryImages,
+  selectedImg,
+  setSelectedImg,
 }) => {
   return (
     <>
