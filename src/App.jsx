@@ -753,8 +753,8 @@ function App() {
           </div>
           <div className="footer-bottom">
             <p>
-              © 2026 HOPE<span>BRIDGE</span>
-              <sup>&trade;</sup>. All rights reserved.
+              © 2014 - 2026 HOPE<span>BRIDGE </span>
+              FOUNDATION. All rights reserved.
             </p>
           </div>
         </div>
