@@ -223,110 +223,104 @@ function App() {
           <Route
             path="/"
             element={
-              <>
-                {/* 💎 THE CAUSE MODAL (Pop-out) */}
-                {selectedCause && (
-                  <div
-                    className="modal-backdrop"
-                    onClick={() => setSelectedCause(null)}
-                  >
-                    <div
-                      className="cause-modal-content"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        className="close-modal"
-                        onClick={() => setSelectedCause(null)}
-                      >
-                        &times;
-                      </button>
-
-                      <div className="modal-grid">
-                        <div className="modal-image-side">
-                          <img
-                            src={selectedCause.image}
-                            alt={selectedCause.title}
-                          />
-                        </div>
-
-                        <div className="modal-info-side">
-                          {/* 🎯 TOP: Small & Tight Header */}
-                          <div className="modal-header">
-                            <div className="modal-icon-circle-mini">
-                              {iconMap[selectedCause.title] || (
-                                <Heart size={20} />
-                              )}
-                            </div>
-                            <h3 className="modal-title-small">
-                              {selectedCause.title}
-                            </h3>
-                          </div>
-
-                          {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
-                          <div className="modal-scroll-area">
-                            <p className="full-desc-text">
-                              {selectedCause.fullDescription}
-                            </p>
-                          </div>
-
-                          {/* 🎯 BOTTOM: Small & Pinned Footer */}
-                          <div className="modal-footer-mini">
-                            <div className="modal-stats-mini">
-                              <div className="progress-stats">
-                                <span>
-                                  Raised: $
-                                  {Number(
-                                    selectedCause.raised
-                                  ).toLocaleString()}
-                                </span>
-                                <span>
-                                  {Math.round(
-                                    (selectedCause.raised /
-                                      selectedCause.goal) *
-                                      100
-                                  )}
-                                  %
-                                </span>
-                              </div>
-                              <div className="progress-bar-bg">
-                                <div
-                                  className="progress-bar-fill"
-                                  style={{
-                                    width: `${
-                                      (selectedCause.raised /
-                                        selectedCause.goal) *
-                                      100
-                                    }%`,
-                                  }}
-                                ></div>
-                              </div>
-                            </div>
-
-                            <button
-                              className="donate-btn-small"
-                              onClick={() => {
-                                setSelectedCause(null);
-                                scrollToDonation();
-                              }}
-                            >
-                              Donate to this cause
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </>
+              <Home
+                causes={causes}
+                loading={loading}
+                iconMap={iconMap}
+                scrollToDonation={scrollToDonation}
+                setSelectedCause={setSelectedCause}
+                donationRef={donationRef} // Pass the ref so the form knows where to go
+              />
             }
           />
 
           {/* 🎯 The New Information Hub Page */}
-          {/* <Route
+          <Route
             path="/info"
-            element={<InfoPage iconMap={iconMap} causes={causes} />}
-          /> */}
+            element={<InfoPage causes={causes} iconMap={iconMap} />}
+          />
         </Routes>
+
+        {/* 💎 THE CAUSE MODAL (Pop-out) */}
+        {selectedCause && (
+          <div
+            className="modal-backdrop"
+            onClick={() => setSelectedCause(null)}
+          >
+            <div
+              className="cause-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="close-modal"
+                onClick={() => setSelectedCause(null)}
+              >
+                &times;
+              </button>
+
+              <div className="modal-grid">
+                <div className="modal-image-side">
+                  <img src={selectedCause.image} alt={selectedCause.title} />
+                </div>
+
+                <div className="modal-info-side">
+                  {/* 🎯 TOP: Small & Tight Header */}
+                  <div className="modal-header">
+                    <div className="modal-icon-circle-mini">
+                      {iconMap[selectedCause.title] || <Heart size={20} />}
+                    </div>
+                    <h3 className="modal-title-small">{selectedCause.title}</h3>
+                  </div>
+
+                  {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
+                  <div className="modal-scroll-area">
+                    <p className="full-desc-text">
+                      {selectedCause.fullDescription}
+                    </p>
+                  </div>
+
+                  {/* 🎯 BOTTOM: Small & Pinned Footer */}
+                  <div className="modal-footer-mini">
+                    <div className="modal-stats-mini">
+                      <div className="progress-stats">
+                        <span>
+                          Raised: $
+                          {Number(selectedCause.raised).toLocaleString()}
+                        </span>
+                        <span>
+                          {Math.round(
+                            (selectedCause.raised / selectedCause.goal) * 100
+                          )}
+                          %
+                        </span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div
+                          className="progress-bar-fill"
+                          style={{
+                            width: `${
+                              (selectedCause.raised / selectedCause.goal) * 100
+                            }%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <button
+                      className="donate-btn-small"
+                      onClick={() => {
+                        setSelectedCause(null);
+                        scrollToDonation();
+                      }}
+                    >
+                      Donate to this cause
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 8. Footer Section */}
         <footer className="footer">
