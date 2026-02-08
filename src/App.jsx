@@ -1,3 +1,5 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import InfoPage from "./pages/InfoPage";
 import React, { useRef, useState, useEffect } from "react";
 import { db } from "./firebase/config";
 import {
@@ -214,552 +216,559 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      {/* 1. Hero Section */}
-      <header className="hero">
-        <div className="hero-content">
-          <div className="logo">
-            HOPE<span>BRIDGE</span>
-            <sup>&trade;</sup>
-          </div>
-          <h1>
-            Transform Lives Through <br />
-            <span>Compassion</span>
-          </h1>
-          <p>
-            Your generosity brings hope to those who need it most. <br />{" "}
-            Together, we create lasting change.
-          </p>
-          <div className="hero-btns">
-            <button className="btn-primary" onClick={scrollToDonation}>
-              Donate Now
-            </button>
-            <button className="btn-secondary">Learn More</button>
-          </div>
-        </div>
-      </header>
-
-      {/* 2. Mission Section */}
-      <section className="mission-section">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Our Mission</h1>
-            <p className="section-lead">
-              We believe every person deserves dignity, care, and opportunity.
-              Our mission is to provide essential support to the poor, shelter
-              and hope to the homeless, and a loving future for orphaned
-              children.
-            </p>
-            <p className="mission-detail">
-              Through your generous donations, we deliver food, shelter,
-              education, and medical care to those who need it most. Every
-              contribution makes a direct impact on real lives.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Stats Section */}
-      <div className="stats-container">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Making a Difference</h1>
-            <p className="section-lead">
-              See the impact of your generosity in numbers
-            </p>
-          </div>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="icon-circle">
-                <Users size={32} />
-              </div>
-              <h3>50,000+</h3>
-              <p>Lives Impacted</p>
+    <Router>
+      <div className="app-container">
+        {/* 1. Hero Section */}
+        <header className="hero">
+          <div className="hero-content">
+            <div className="logo">
+              HOPE<span>BRIDGE</span>
+              <sup>&trade;</sup>
             </div>
-            <div className="stat-card">
-              <div className="icon-circle">
-                <Home size={32} />
-              </div>
-              <h3>2,500+</h3>
-              <p>Shelters Provided</p>
-            </div>
-            <div className="stat-card">
-              <div className="icon-circle">
-                <Utensils size={32} />
-              </div>
-              <h3>15,000+</h3>
-              <p>Meals Served</p>
-            </div>
-            <div className="stat-card">
-              <div className="icon-circle">
-                <Heart size={32} />
-              </div>
-              <h3>3,000+</h3>
-              <p>Children Supported</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 4. Causes Section */}
-      <section className="causes-section">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Where Your Donation Goes</h1>
-            <p className="section-lead">
-              Choose a cause that resonates with your heart, or support all
-              three
-            </p>
-          </div>
-          <div className="causes-grid">
-            {loading ? (
-              <p style={{ textAlign: "center", width: "100%" }}>
-                Loading causes...
-              </p>
-            ) : (
-              causes.map((cause) => (
-                <CauseCard
-                  key={cause.id}
-                  {...cause}
-                  title={cause.title}
-                  raised={cause.raised}
-                  goal={cause.goal}
-                  icon={iconMap[cause.title] || <Heart size={24} />}
-                  image={cause.image}
-                  description={cause.description}
-                  benefits={cause.benefits || []}
-                  onDonateClick={scrollToDonation}
-                  onImageClick={() => setSelectedCause(cause)}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. How It Works Section */}
-      <section className="how-it-works">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">How it works</h1>
-            <p className="section-lead">
-              Your journey from donation to impact in three simple steps
-            </p>
-          </div>
-
-          <div className="steps-wrapper">
-            <div className="step-line"></div>{" "}
-            {/* One straight line behind icons */}
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <HandHeart size={32} />
-              </div>
-              <h3>You Donate</h3>
-              <p>
-                Choose an amount and select the cause closest to your heart.
-                Every dollar counts
-              </p>
-            </div>
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <TrendingUp size={32} />
-              </div>
-              <h3>We Distribute</h3>
-              <p>
-                100% of your donation goes directly to programs that help those
-                in need.
-              </p>
-            </div>
-            <div className="step-item">
-              <div className="icon-wrapper">
-                <Smile size={32} />
-              </div>
-              <h3>Lives Transform</h3>
-              <p>
-                See the impact through regular updates and stories of hope and
-                recovery.
-              </p>
-            </div>
-          </div>
-
-          {/* 💎 100% Transparency Box - Now part of this section */}
-          <div className="transparency-box">
-            <h2>100% Transparency</h2>
+            <h1>
+              Transform Lives Through <br />
+              <span>Compassion</span>
+            </h1>
             <p>
-              We believe in complete transparency. Every donation is tracked,
-              and you'll receive regular updates on how your contribution is
-              making a difference. Our overhead costs are covered by separate
-              grants, ensuring your donation goes directly to those who need it.
+              Your generosity brings hope to those who need it most. <br />{" "}
+              Together, we create lasting change.
             </p>
+            <div className="hero-btns">
+              <button className="btn-primary" onClick={scrollToDonation}>
+                Donate Now
+              </button>
+              <button className="btn-secondary">Learn More</button>
+            </div>
+          </div>
+        </header>
+
+        {/* 2. Mission Section */}
+        <section className="mission-section">
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">Our Mission</h1>
+              <p className="section-lead">
+                We believe every person deserves dignity, care, and opportunity.
+                Our mission is to provide essential support to the poor, shelter
+                and hope to the homeless, and a loving future for orphaned
+                children.
+              </p>
+              <p className="mission-detail">
+                Through your generous donations, we deliver food, shelter,
+                education, and medical care to those who need it most. Every
+                contribution makes a direct impact on real lives.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Stats Section */}
+        <div className="stats-container">
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">Making a Difference</h1>
+              <p className="section-lead">
+                See the impact of your generosity in numbers
+              </p>
+            </div>
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="icon-circle">
+                  <Users size={32} />
+                </div>
+                <h3>50,000+</h3>
+                <p>Lives Impacted</p>
+              </div>
+              <div className="stat-card">
+                <div className="icon-circle">
+                  <Home size={32} />
+                </div>
+                <h3>2,500+</h3>
+                <p>Shelters Provided</p>
+              </div>
+              <div className="stat-card">
+                <div className="icon-circle">
+                  <Utensils size={32} />
+                </div>
+                <h3>15,000+</h3>
+                <p>Meals Served</p>
+              </div>
+              <div className="stat-card">
+                <div className="icon-circle">
+                  <Heart size={32} />
+                </div>
+                <h3>3,000+</h3>
+                <p>Children Supported</p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* 6. Donation Form Section */}
-      <section className="donation-form-section" ref={donationRef}>
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Make Your Donation</h1>
-            <p className="section-lead">
-              Every contribution counts. Choose an amount below or enter your
-              own.
-            </p>
-          </div>
-          <div className="donation-card-form">
-            {!submitted ? (
-              <form onSubmit={handleDonation}>
-                <div className="form-inner">
-                  <h3>Donation Details</h3>
-                  <p className="form-subtitle">
-                    Your info helps us send your tax-deductible receipt and
-                    impact updates.
-                  </p>
-
-                  <label className="input-label">Select Amount</label>
-                  <div className="amount-grid-options">
-                    {[25, 50, 100, 250].map((amt) => (
-                      <button
-                        key={amt}
-                        type="button"
-                        className="amt-opt"
-                        onClick={() => {
-                          setAmountValue(amt);
-                          setFormError(""); // Clear errors when a valid button is clicked
-                        }}
-                      >
-                        ${amt}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    className="custom-amt-btn"
-                    onClick={() => {
-                      setAmountValue("");
-                      amountInputRef.current.focus();
-                    }}
-                  >
-                    Custom Amount
-                  </button>
-
-                  <label className="input-label">Enter Amount ($)</label>
-                  <input
-                    ref={amountInputRef}
-                    type="number"
-                    name="amount"
-                    className="form-input-field"
-                    placeholder="Minimum $10"
-                    required
-                    value={amountValue} // Controlled input
-                    onChange={(e) => setAmountValue(e.target.value)} // Allow typing too
-                    onFocus={() => setFormError("")}
-                  />
-
-                  <label className="input-label">Donation Category</label>
-                  <select name="category" className="form-input-field">
-                    <option>All Causes</option>
-                    {causes.map((c) => (
-                      <option key={c.id} value={c.title}>
-                        {c.title}
-                      </option>
-                    ))}
-                  </select>
-
-                  <label className="input-label">Full Name</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    className="form-input-field"
-                    placeholder="Enter your full name"
-                    required
-                  />
-
-                  <label className="input-label">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="form-input-field"
-                    placeholder="yourname@example.com"
-                    required
-                  />
-
-                  {formError && (
-                    <div className="form-warning">
-                      <span className="warning-icon">⚠️</span> {formError}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="complete-donation-btn"
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? (
-                      <span className="spinner-container">
-                        <div className="btn-spinner"></div> Processing...
-                      </span>
-                    ) : (
-                      "Complete Donation"
-                    )}
-                  </button>
-                  <p className="tax-info">
-                    Your donation is tax-deductible. A receipt will be sent to
-                    your email.
-                  </p>
-                </div>
-              </form>
-            ) : (
-              <div
-                className="thank-you-message"
-                style={{
-                  textAlign: "center",
-                  padding: "40px 20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  minHeight: "400px",
-                  justifyContent: "center",
-                }}
-              >
-                <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
-                <h2 style={{ marginTop: "20px" }}>Thank You, Hero!</h2>
-                <p>
-                  Your generous gift has been received. Together, we are
-                  building a bridge to a better future.
+        {/* 4. Causes Section */}
+        <section className="causes-section">
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">Where Your Donation Goes</h1>
+              <p className="section-lead">
+                Choose a cause that resonates with your heart, or support all
+                three
+              </p>
+            </div>
+            <div className="causes-grid">
+              {loading ? (
+                <p style={{ textAlign: "center", width: "100%" }}>
+                  Loading causes...
                 </p>
+              ) : (
+                causes.map((cause) => (
+                  <CauseCard
+                    key={cause.id}
+                    {...cause}
+                    title={cause.title}
+                    raised={cause.raised}
+                    goal={cause.goal}
+                    icon={iconMap[cause.title] || <Heart size={24} />}
+                    image={cause.image}
+                    description={cause.description}
+                    benefits={cause.benefits || []}
+                    onDonateClick={scrollToDonation}
+                    onImageClick={() => setSelectedCause(cause)}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+        </section>
 
-                <button
-                  className="btn-primary"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setIsProcessing(false);
-                  }}
-                >
-                  Make Another Donation
-                </button>
+        {/* 5. How It Works Section */}
+        <section className="how-it-works">
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">How it works</h1>
+              <p className="section-lead">
+                Your journey from donation to impact in three simple steps
+              </p>
+            </div>
 
-                <hr
-                  style={{
-                    width: "100%",
-                    border: "0.5px solid #eee",
-                    margin: "20px 0",
-                  }}
-                />
+            <div className="steps-wrapper">
+              <div className="step-line"></div>{" "}
+              {/* One straight line behind icons */}
+              <div className="step-item">
+                <div className="icon-wrapper">
+                  <HandHeart size={32} />
+                </div>
+                <h3>You Donate</h3>
+                <p>
+                  Choose an amount and select the cause closest to your heart.
+                  Every dollar counts
+                </p>
+              </div>
+              <div className="step-item">
+                <div className="icon-wrapper">
+                  <TrendingUp size={32} />
+                </div>
+                <h3>We Distribute</h3>
+                <p>
+                  100% of your donation goes directly to programs that help
+                  those in need.
+                </p>
+              </div>
+              <div className="step-item">
+                <div className="icon-wrapper">
+                  <Smile size={32} />
+                </div>
+                <h3>Lives Transform</h3>
+                <p>
+                  See the impact through regular updates and stories of hope and
+                  recovery.
+                </p>
+              </div>
+            </div>
 
-                <div className="recent-donations" style={{ width: "100%" }}>
-                  <h4 style={{ color: "#2d5a3c", marginBottom: "15px" }}>
-                    Recent Supporters
-                  </h4>
-                  <div className="donation-list">
-                    {recentDonations.length > 0 ? (
-                      recentDonations.map((don, index) => (
-                        <div
-                          key={index}
-                          className="donation-item"
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "100%",
-                            padding: "10px",
-                            borderBottom: "1px solid #eee",
+            {/* 💎 100% Transparency Box - Now part of this section */}
+            <div className="transparency-box">
+              <h2>100% Transparency</h2>
+              <p>
+                We believe in complete transparency. Every donation is tracked,
+                and you'll receive regular updates on how your contribution is
+                making a difference. Our overhead costs are covered by separate
+                grants, ensuring your donation goes directly to those who need
+                it.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. Donation Form Section */}
+        <section className="donation-form-section" ref={donationRef}>
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">Make Your Donation</h1>
+              <p className="section-lead">
+                Every contribution counts. Choose an amount below or enter your
+                own.
+              </p>
+            </div>
+            <div className="donation-card-form">
+              {!submitted ? (
+                <form onSubmit={handleDonation}>
+                  <div className="form-inner">
+                    <h3>Donation Details</h3>
+                    <p className="form-subtitle">
+                      Your info helps us send your tax-deductible receipt and
+                      impact updates.
+                    </p>
+
+                    <label className="input-label">Select Amount</label>
+                    <div className="amount-grid-options">
+                      {[25, 50, 100, 250].map((amt) => (
+                        <button
+                          key={amt}
+                          type="button"
+                          className="amt-opt"
+                          onClick={() => {
+                            setAmountValue(amt);
+                            setFormError(""); // Clear errors when a valid button is clicked
                           }}
                         >
-                          <span
+                          ${amt}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      className="custom-amt-btn"
+                      onClick={() => {
+                        setAmountValue("");
+                        amountInputRef.current.focus();
+                      }}
+                    >
+                      Custom Amount
+                    </button>
+
+                    <label className="input-label">Enter Amount ($)</label>
+                    <input
+                      ref={amountInputRef}
+                      type="number"
+                      name="amount"
+                      className="form-input-field"
+                      placeholder="Minimum $10"
+                      required
+                      value={amountValue} // Controlled input
+                      onChange={(e) => setAmountValue(e.target.value)} // Allow typing too
+                      onFocus={() => setFormError("")}
+                    />
+
+                    <label className="input-label">Donation Category</label>
+                    <select name="category" className="form-input-field">
+                      <option>All Causes</option>
+                      {causes.map((c) => (
+                        <option key={c.id} value={c.title}>
+                          {c.title}
+                        </option>
+                      ))}
+                    </select>
+
+                    <label className="input-label">Full Name</label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      className="form-input-field"
+                      placeholder="Enter your full name"
+                      required
+                    />
+
+                    <label className="input-label">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      className="form-input-field"
+                      placeholder="yourname@example.com"
+                      required
+                    />
+
+                    {formError && (
+                      <div className="form-warning">
+                        <span className="warning-icon">⚠️</span> {formError}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="complete-donation-btn"
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? (
+                        <span className="spinner-container">
+                          <div className="btn-spinner"></div> Processing...
+                        </span>
+                      ) : (
+                        "Complete Donation"
+                      )}
+                    </button>
+                    <p className="tax-info">
+                      Your donation is tax-deductible. A receipt will be sent to
+                      your email.
+                    </p>
+                  </div>
+                </form>
+              ) : (
+                <div
+                  className="thank-you-message"
+                  style={{
+                    textAlign: "center",
+                    padding: "40px 20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    minHeight: "400px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Heart size={48} color="#2d5a3c" fill="#2d5a3c" />
+                  <h2 style={{ marginTop: "20px" }}>Thank You, Hero!</h2>
+                  <p>
+                    Your generous gift has been received. Together, we are
+                    building a bridge to a better future.
+                  </p>
+
+                  <button
+                    className="btn-primary"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setIsProcessing(false);
+                    }}
+                  >
+                    Make Another Donation
+                  </button>
+
+                  <hr
+                    style={{
+                      width: "100%",
+                      border: "0.5px solid #eee",
+                      margin: "20px 0",
+                    }}
+                  />
+
+                  <div className="recent-donations" style={{ width: "100%" }}>
+                    <h4 style={{ color: "#2d5a3c", marginBottom: "15px" }}>
+                      Recent Supporters
+                    </h4>
+                    <div className="donation-list">
+                      {recentDonations.length > 0 ? (
+                        recentDonations.map((don, index) => (
+                          <div
+                            key={index}
+                            className="donation-item"
                             style={{
                               display: "flex",
-                              alignItems: "center",
-                              gap: "8px",
+                              justifyContent: "space-between",
+                              width: "100%",
+                              padding: "10px",
+                              borderBottom: "1px solid #eee",
                             }}
                           >
-                            {Number(don.amount) >= 500 && (
-                              <span title="Top Donor">👑</span>
-                            )}
-                            {/* 🧹 Use the cleaner function here */}
-                            {getCleanFirstName(don.donorName)}
-                          </span>
-                          <span style={{ fontWeight: "bold" }}>
-                            ${Number(don.amount).toLocaleString()}
-                          </span>
-                        </div>
-                      ))
-                    ) : (
-                      <p style={{ fontStyle: "italic", color: "#666" }}>
-                        Be the first to appear here!
-                      </p>
-                    )}
+                            <span
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                              }}
+                            >
+                              {Number(don.amount) >= 500 && (
+                                <span title="Top Donor">👑</span>
+                              )}
+                              {/* 🧹 Use the cleaner function here */}
+                              {getCleanFirstName(don.donorName)}
+                            </span>
+                            <span style={{ fontWeight: "bold" }}>
+                              ${Number(don.amount).toLocaleString()}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <p style={{ fontStyle: "italic", color: "#666" }}>
+                          Be the first to appear here!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* 7. Impact Gallery Section */}
+        <section className="gallery-section">
+          <div className="container">
+            <div className="section-header-box">
+              <h1 className="section-title">Moments of Hope</h1>
+              <p className="section-lead">
+                Real stories and real impact, captured on the field.
+              </p>
+            </div>
+
+            <div className="gallery-grid">
+              {galleryImages.map((img) => (
+                <div
+                  key={img.id}
+                  className="gallery-item"
+                  onClick={() => setSelectedImg(img.url)}
+                >
+                  <img src={img.url} alt={img.caption} />
+                  <div className="gallery-overlay">
+                    <span>{img.caption}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 💡 THE LIGHTBOX MODAL */}
+          {selectedImg && (
+            <div
+              className="lightbox-backdrop"
+              onClick={() => setSelectedImg(null)}
+            >
+              <div className="lightbox-content">
+                <img src={selectedImg} alt="Enlarged impact" />
+                <button className="close-lightbox">&times;</button>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* 💎 THE CAUSE MODAL (Pop-out) */}
+        {selectedCause && (
+          <div
+            className="modal-backdrop"
+            onClick={() => setSelectedCause(null)}
+          >
+            <div
+              className="cause-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="close-modal"
+                onClick={() => setSelectedCause(null)}
+              >
+                &times;
+              </button>
+
+              <div className="modal-grid">
+                <div className="modal-image-side">
+                  <img src={selectedCause.image} alt={selectedCause.title} />
+                </div>
+
+                <div className="modal-info-side">
+                  {/* 🎯 TOP: Small & Tight Header */}
+                  <div className="modal-header">
+                    <div className="modal-icon-circle-mini">
+                      {iconMap[selectedCause.title] || <Heart size={20} />}
+                    </div>
+                    <h3 className="modal-title-small">{selectedCause.title}</h3>
+                  </div>
+
+                  {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
+                  <div className="modal-scroll-area">
+                    <p className="full-desc-text">
+                      {selectedCause.fullDescription}
+                    </p>
+                  </div>
+
+                  {/* 🎯 BOTTOM: Small & Pinned Footer */}
+                  <div className="modal-footer-mini">
+                    <div className="modal-stats-mini">
+                      <div className="progress-stats">
+                        <span>
+                          Raised: $
+                          {Number(selectedCause.raised).toLocaleString()}
+                        </span>
+                        <span>
+                          {Math.round(
+                            (selectedCause.raised / selectedCause.goal) * 100
+                          )}
+                          %
+                        </span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div
+                          className="progress-bar-fill"
+                          style={{
+                            width: `${
+                              (selectedCause.raised / selectedCause.goal) * 100
+                            }%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <button
+                      className="donate-btn-small"
+                      onClick={() => {
+                        setSelectedCause(null);
+                        scrollToDonation();
+                      }}
+                    >
+                      Donate to this cause
+                    </button>
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Impact Gallery Section */}
-      <section className="gallery-section">
-        <div className="container">
-          <div className="section-header-box">
-            <h1 className="section-title">Moments of Hope</h1>
-            <p className="section-lead">
-              Real stories and real impact, captured on the field.
-            </p>
-          </div>
-
-          <div className="gallery-grid">
-            {galleryImages.map((img) => (
-              <div
-                key={img.id}
-                className="gallery-item"
-                onClick={() => setSelectedImg(img.url)}
-              >
-                <img src={img.url} alt={img.caption} />
-                <div className="gallery-overlay">
-                  <span>{img.caption}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 💡 THE LIGHTBOX MODAL */}
-        {selectedImg && (
-          <div
-            className="lightbox-backdrop"
-            onClick={() => setSelectedImg(null)}
-          >
-            <div className="lightbox-content">
-              <img src={selectedImg} alt="Enlarged impact" />
-              <button className="close-lightbox">&times;</button>
             </div>
           </div>
         )}
-      </section>
 
-      {/* 💎 THE CAUSE MODAL (Pop-out) */}
-      {selectedCause && (
-        <div className="modal-backdrop" onClick={() => setSelectedCause(null)}>
-          <div
-            className="cause-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="close-modal"
-              onClick={() => setSelectedCause(null)}
-            >
-              &times;
-            </button>
-
-            <div className="modal-grid">
-              <div className="modal-image-side">
-                <img src={selectedCause.image} alt={selectedCause.title} />
+        {/* 8. Footer Section */}
+        <footer className="footer">
+          <div className="container">
+            <div className="footer-content">
+              <div className="footer-col brand-col">
+                <h3>
+                  <Heart size={24} fill="white" className="footer-heart" />
+                  <div className="logo">
+                    HOPE<span>BRIDGE</span>
+                    <sup>&trade;</sup>
+                  </div>
+                </h3>
+                <p>
+                  Transforming lives through compassion and generosity.
+                  Together, we create lasting change.
+                </p>
               </div>
-
-              <div className="modal-info-side">
-                {/* 🎯 TOP: Small & Tight Header */}
-                <div className="modal-header">
-                  <div className="modal-icon-circle-mini">
-                    {iconMap[selectedCause.title] || <Heart size={20} />}
-                  </div>
-                  <h3 className="modal-title-small">{selectedCause.title}</h3>
-                </div>
-
-                {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
-                <div className="modal-scroll-area">
-                  <p className="full-desc-text">
-                    {selectedCause.fullDescription}
-                  </p>
-                </div>
-
-                {/* 🎯 BOTTOM: Small & Pinned Footer */}
-                <div className="modal-footer-mini">
-                  <div className="modal-stats-mini">
-                    <div className="progress-stats">
-                      <span>
-                        Raised: ${Number(selectedCause.raised).toLocaleString()}
-                      </span>
-                      <span>
-                        {Math.round(
-                          (selectedCause.raised / selectedCause.goal) * 100
-                        )}
-                        %
-                      </span>
-                    </div>
-                    <div className="progress-bar-bg">
-                      <div
-                        className="progress-bar-fill"
-                        style={{
-                          width: `${
-                            (selectedCause.raised / selectedCause.goal) * 100
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <button
-                    className="donate-btn-small"
-                    onClick={() => {
-                      setSelectedCause(null);
-                      scrollToDonation();
-                    }}
-                  >
-                    Donate to this cause
-                  </button>
-                </div>
+              <div className="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                  <li>About Us</li>
+                  <li>Our Programs</li>
+                  <li>Impact Reports</li>
+                  <li>Get Involved</li>
+                </ul>
+              </div>
+              <div className="footer-col">
+                <h4>Contact Us</h4>
+                <p>
+                  <Mail size={16} /> contact@hopebridge.org
+                </p>
+                <p>
+                  <Phone size={16} /> +1 (555) 123-4567
+                </p>
+                <p>
+                  <MapPin size={16} /> 123 Bridge Street, Hope City
+                </p>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* 8. Footer Section */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-col brand-col">
-              <h3>
-                <Heart size={24} fill="white" className="footer-heart" />
-                <div className="logo">
-                  HOPE<span>BRIDGE</span>
-                  <sup>&trade;</sup>
-                </div>
-              </h3>
+            <div className="footer-bottom">
               <p>
-                Transforming lives through compassion and generosity. Together,
-                we create lasting change.
-              </p>
-            </div>
-            <div className="footer-col">
-              <h4>Quick Links</h4>
-              <ul>
-                <li>About Us</li>
-                <li>Our Programs</li>
-                <li>Impact Reports</li>
-                <li>Get Involved</li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Contact Us</h4>
-              <p>
-                <Mail size={16} /> contact@hopebridge.org
-              </p>
-              <p>
-                <Phone size={16} /> +1 (555) 123-4567
-              </p>
-              <p>
-                <MapPin size={16} /> 123 Bridge Street, Hope City
+                © 2014 - 2026 HOPE<span>BRIDGE </span>
+                FOUNDATION. All rights reserved.
               </p>
             </div>
           </div>
-          <div className="footer-bottom">
-            <p>
-              © 2014 - 2026 HOPE<span>BRIDGE </span>
-              FOUNDATION. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </Router>
   );
 }
 
