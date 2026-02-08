@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import InfoPage from "./pages/InfoPage";
 import React, { useRef, useState, useEffect } from "react";
+import Home from "./pages/Home";
+import InfoPage from "./pages/InfoPage";
 import { db } from "./firebase/config";
 import {
   collection,
@@ -13,44 +14,32 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import CauseCard from "./components/CauseCard";
 import "./App.css";
+
 import {
-  Users,
   Coins,
   Building2,
-  Home,
-  Utensils,
   Heart,
-  HandHeart,
-  Baby,
-  TrendingUp,
-  Smile,
   Mail,
   Phone,
   MapPin,
+  Baby,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
 function App() {
   const [selectedCause, setSelectedCause] = useState(null);
-  const [formError, setFormError] = useState("");
-
-  const amountInputRef = useRef(null);
-
-  const donationRef = useRef(null);
-  const [submitted, setSubmitted] = useState(false);
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const donationRef = useRef(null);
+  const [formError, setFormError] = useState("");
+  const amountInputRef = useRef(null);
+  const [submitted, setSubmitted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-
   const [recentDonations, setRecentDonations] = useState([]);
-
   const [amountValue, setAmountValue] = useState("");
-
   const [galleryImages, setGalleryImages] = useState([]);
-  const [selectedImg, setSelectedImg] = useState(null); // For Lightbox
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const getCleanFirstName = (fullName) => {
     if (!fullName) return "Hero";
@@ -229,7 +218,21 @@ function App() {
                 iconMap={iconMap}
                 scrollToDonation={scrollToDonation}
                 setSelectedCause={setSelectedCause}
-                donationRef={donationRef} // Pass the ref so the form knows where to go
+                donationRef={donationRef}
+                handleDonation={handleDonation}
+                submitted={submitted}
+                setSubmitted={setSubmitted}
+                formError={formError}
+                setFormError={setFormError}
+                amountInputRef={amountInputRef}
+                amountValue={amountValue}
+                setAmountValue={setAmountValue}
+                isProcessing={isProcessing}
+                recentDonations={recentDonations}
+                getCleanFirstName={getCleanFirstName}
+                galleryImages={galleryImages}
+                selectedImg={selectedImg}
+                setSelectedImg={setSelectedImg}
               />
             }
           />
