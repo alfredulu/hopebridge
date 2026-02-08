@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CauseCard from "../components/CauseCard";
-import { HandHeart, TrendingUp, Smile, Heart } from "lucide-react";
+import {
+  HandHeart,
+  TrendingUp,
+  Smile,
+  Users,
+  Home as HomeIcon,
+  Utensils,
+  Heart,
+} from "lucide-react";
 
 const Home = ({
   causes,
@@ -148,7 +156,6 @@ const Home = ({
 
           <div className="steps-wrapper">
             <div className="step-line"></div>{" "}
-            {/* One straight line behind icons */}
             <div className="step-item">
               <div className="icon-wrapper">
                 <HandHeart size={32} />
@@ -181,7 +188,7 @@ const Home = ({
             </div>
           </div>
 
-          {/* 💎 100% Transparency Box - Now part of this section */}
+          {/* 💎 100% Transparency Box */}
           <div className="transparency-box">
             <h2>100% Transparency</h2>
             <p>
