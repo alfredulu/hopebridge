@@ -129,6 +129,17 @@ function App() {
     fetchGallery();
   }, []);
 
+  useEffect(() => {
+    if (selectedCause) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedCause]);
+
   const scrollToDonation = () => {
     donationRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -639,56 +650,62 @@ function App() {
             </button>
 
             <div className="modal-grid">
-              {/* Left Side: Image */}
               <div className="modal-image-side">
                 <img src={selectedCause.image} alt={selectedCause.title} />
               </div>
 
-              {/* Right Side: The Detailed Story */}
               <div className="modal-info-side">
-                <div className="modal-icon-circle">
-                  {iconMap[selectedCause.title] || <Heart size={24} />}
-                </div>
-                <h3>{selectedCause.title}</h3>
-
-                {/* 🎯 Only showing the full compelling story here */}
-                <p className="full-desc-text">
-                  {selectedCause.fullDescription}
-                </p>
-
-                <div className="modal-stats">
-                  <div className="progress-stats">
-                    <span>
-                      Raised: ${Number(selectedCause.raised).toLocaleString()}
-                    </span>
-                    <span>
-                      {Math.round(
-                        (selectedCause.raised / selectedCause.goal) * 100
-                      )}
-                      %
-                    </span>
+                {/* 🎯 TOP: Small & Tight Header */}
+                <div className="modal-header">
+                  <div className="modal-icon-circle-mini">
+                    {iconMap[selectedCause.title] || <Heart size={20} />}
                   </div>
-                  <div className="progress-bar-bg">
-                    <div
-                      className="progress-bar-fill"
-                      style={{
-                        width: `${
+                  <h3 className="modal-title-small">{selectedCause.title}</h3>
+                </div>
+
+                {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
+                <div className="modal-scroll-area">
+                  <p className="full-desc-text">
+                    {selectedCause.fullDescription}
+                  </p>
+                </div>
+
+                {/* 🎯 BOTTOM: Small & Pinned Footer */}
+                <div className="modal-footer-mini">
+                  <div className="modal-stats-mini">
+                    <div className="progress-stats">
+                      <span>
+                        Raised: ${Number(selectedCause.raised).toLocaleString()}
+                      </span>
+                      <span>
+                        {Math.round(
                           (selectedCause.raised / selectedCause.goal) * 100
-                        }%`,
-                      }}
-                    ></div>
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="progress-bar-bg">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (selectedCause.raised / selectedCause.goal) * 100
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  className="complete-donation-btn"
-                  onClick={() => {
-                    setSelectedCause(null);
-                    scrollToDonation();
-                  }}
-                >
-                  Donate to this cause
-                </button>
+                  <button
+                    className="donate-btn-small"
+                    onClick={() => {
+                      setSelectedCause(null);
+                      scrollToDonation();
+                    }}
+                  >
+                    Donate to this cause
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -221,7 +221,7 @@ body {
   border-radius: 4px 0 0 4px;
 }
 .card-img {
-  transition: transform 0.5s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -681,23 +681,24 @@ body {
 .cause-modal-content {
   background: white;
   width: 95%;
-  max-width: 900px;
-  max-height: 90vh;
+  max-width: 1100px;
+  height: 90vh;
+  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border-radius: 20px;
   position: relative;
-  overflow-y: auto;
-  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
 }
 
 .modal-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 0.7fr 1.3fr;
+  height: 100%;
 }
 
 .modal-image-side {
-  height: auto;
-  min-height: 400px;
+  height: 100%;
+  overflow: hidden;
 }
 
 .modal-image-side img {
@@ -707,24 +708,47 @@ body {
 }
 
 .modal-info-side {
-  padding: 50px;
-  background: white;
+  padding: 30px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: left;
+  height: 100%;
+  overflow: hidden;
 }
 
-.modal-icon-circle {
-  width: 60px;
-  height: 60px;
+.modal-icon-circle-mini {
+  width: 40px;
+  height: 40px;
   background: #e8f0e9;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-green);
-  margin-bottom: 20px;
+}
+
+.modal-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 15px;
+  margin: 10px 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.modal-header h3 {
+  font-size: 1.4rem; /* 🎯 Reduced from previous 1.6+ */
+  margin-top: 10px;
+}
+
+.modal-title-small {
+  font-size: 1.2rem !important; /* 🎯 Smaller title */
+  margin: 0 !important;
+  color: var(--dark-green);
 }
 
 .full-desc {
@@ -736,10 +760,8 @@ body {
 
 .full-desc-text {
   color: var(--light-green);
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin-bottom: 30px;
-  /* Adds a slight fade-in for the text */
+  font-size: 0.95rem;
+  line-height: 1.7;
   animation: fadeInText 0.8s ease-out;
 }
 
@@ -749,6 +771,32 @@ body {
   margin-bottom: 30px;
   color: var(--brand-green);
   font-weight: 600;
+}
+
+.modal-footer-mini {
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.modal-stats-mini {
+  margin-bottom: 15px;
+}
+
+.modal-stats-mini .progress-stats {
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+.donate-btn-small {
+  width: 100%;
+  padding: 12px; /* 🎯 Smaller button */
+  background-color: var(--dark-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 
 .close-modal {
@@ -865,17 +913,31 @@ body {
 }
 
 @media (max-width: 900px) {
+  .cause-modal-content {
+    height: 90vh;
+  }
   .modal-grid {
     grid-template-columns: 1fr;
+    overflow-y: auto;
+    display: block;
   }
 
   .modal-image-side {
-    height: 250px;
-    min-height: 250px;
+    height: 200px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .modal-info-side {
-    padding: 30px 20px;
+    height: auto;
+    overflow: visible;
+    padding: 20px;
+  }
+
+  .modal-scroll-area {
+    overflow: visible;
+    height: auto;
   }
 }
 
@@ -902,9 +964,6 @@ body {
   }
   .modal-grid {
     grid-template-columns: 1fr;
-  }
-  .modal-image-side {
-    height: 200px;
   }
 }
 
