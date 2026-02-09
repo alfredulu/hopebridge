@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Send, Heart } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Heart, Quote } from "lucide-react";
 
 const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();
   const [status, setStatus] = useState("");
 
-  // Logic to jump to #about-us or #learn-more when coming from the home page
   useEffect(() => {
     if (hash) {
       const element = document.getElementById(hash.replace("#", ""));
@@ -35,9 +34,8 @@ const InfoPage = ({ causes, iconMap }) => {
             </Link>
             <div className="nav-links">
               <Link to="/info#about-us">About Us</Link>
-              <Link to="/info#learn-more">Our Programs</Link>
-              <Link to="/#">Impact Reports</Link>
-              <Link to="/#">Get Involved</Link>
+              <Link to="/#causes">Our Programs</Link>
+              <Link to="/info#contact-us">Get Involved</Link>
               <Link to="/#donation-form" className="nav-donate-btn">
                 Donate Now
               </Link>
@@ -47,52 +45,45 @@ const InfoPage = ({ causes, iconMap }) => {
       </header>
 
       {/* 1. About Us Section */}
-      <section id="about-us" className="info-section cream-bg-section">
+      <section
+        id="about-us"
+        className="info-section cream-bg-section centered-about"
+      >
         <div className="container">
-          <h1 className="section-title">The Story Behind the Bridge</h1>
-          <div className="about-content-box">
-            <p>
-              Hopebridge wasn’t born in a boardroom; it was born on the ground.
-              12 years ago, we started with a simple observation: the gap
-              between a family's survival and their success isn't usually a lack
-              of will, it’s a lack of access. Whether it's the 10 miles between
-              an orphan and a school, or the invisible wall between a homeless
-              veteran and a stable job, these are the gaps we bridge. Behind
-              every box of aid we deliver is a team that stays. We don't just
-              drop off supplies; we partner with community leaders to identify
-              long-term solutions. <br />
-              By 2026, we’ve learned that humanitarian aid is only as good as
-              the transparency behind it. We handle the logistics, the advocacy,
-              and the heavy lifting so that your generosity can focus on the
-              only thing that matters: the human being on the other side of the
-              bridge. <br />
-              Join us in our mission to make a difference. Together, we can
-              build a world where every child has the chance to grow, learn, and
-              flourish💛.
-            </p>
+          <div className="about-vignette">
+            <Quote size={40} className="quote-icon" />
+            <h1 className="section-title">The Story Behind the Bridge</h1>
+            <div className="about-content-box">
+              <p>
+                Hopebridge wasn’t born in a boardroom; it was born on the
+                ground. In 2014, we started with a simple observation: the gap
+                between a family's survival and their success isn't usually a
+                lack of will, it’s a lack of access.
+              </p>
+              <p className="emphasis-text">
+                Whether it's the 10 miles between an orphan and a school, or the
+                invisible wall between a homeless veteran and a stable job,
+                these are the gaps we bridge. Behind every box of aid we deliver
+                is a team that stays. We don't just drop off supplies; we
+                partner with community leaders to identify long-term solutions.{" "}
+              </p>
+              <p>
+                By 2026, we’ve learned that humanitarian aid is only as good as
+                the transparency behind it. We handle the logistics, the
+                advocacy, and the heavy lifting so that your generosity can
+                focus on the only thing that matters:{" "}
+                <strong>
+                  the human being on the other side of the bridge.
+                </strong>{" "}
+                Join us in our mission to make a difference.
+              </p>
+              <div className="signature">Together, we flourish 💛</div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Learn More (Deep Dive) Section */}
-      <section id="learn-more" className="info-section light-bg-section">
-        <div className="container">
-          <h2 className="section-title">Our Deep Dive</h2>
-          <div className="detailed-causes-list">
-            {causes.map((cause) => (
-              <div key={cause.id} className="detail-item">
-                <div className="detail-header">
-                  {iconMap[cause.title]}
-                  <h3>{cause.title}</h3>
-                </div>
-                <p>{cause.fullDescription}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section Placeholder */}
+      {/* 3. Contact Section */}
       <section id="contact-us" className="info-section light-bg-section">
         <div className="container">
           <h2 className="section-title">Get In Touch</h2>

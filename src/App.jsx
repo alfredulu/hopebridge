@@ -346,16 +346,17 @@ function App() {
                 <h4>Quick Links</h4>
                 <ul>
                   <li>
-                    <Link
-                      to="/info#about-us"
-                      style={{ color: "inherit", textDecoration: "none" }}
-                    >
-                      About Us
-                    </Link>
+                    <Link to="/info#about-us">About Us</Link>
                   </li>
-                  <li>Our Programs</li>
-                  <li>Impact Reports</li>
-                  <li>Get Involved</li>
+                  <li>
+                    <Link to="/#causes">Our Programs</Link>
+                  </li>
+                  <li>
+                    <Link to="/#stats">Impact Reports</Link>
+                  </li>
+                  <li>
+                    <Link to="/info#contact-us">Get Involved</Link>
+                  </li>
                 </ul>
               </div>
               <div className="footer-col">
