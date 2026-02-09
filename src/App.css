@@ -123,6 +123,38 @@ body {
   backdrop-filter: blur(8px);
 }
 
+/* --- INFO PAGE & CONTACT FORM --- */
+.info-section {
+  padding: 100px 0;
+}
+
+.alternate-bg {
+  background-color: var(--light-cream);
+}
+
+.about-content-box {
+  max-width: 800px;
+  margin: 40px auto;
+  text-align: left;
+  line-height: 1.8;
+  color: var(--light-green);
+}
+
+.detail-item {
+  margin-bottom: 60px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 40px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: var(--dark-green);
+}
+
 /* 2. MISSION SECTION */
 .mission-section {
   padding: 60px 0 30px;

@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();
+  const [status, setStatus] = useState("");
 
   // Logic to jump to #about-us or #learn-more when coming from the home page
   useEffect(() => {
@@ -11,6 +13,13 @@ const InfoPage = ({ causes, iconMap }) => {
       if (element) element.scrollIntoView({ behavior: "smooth" });
     }
   }, [hash]);
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+    // Future: Add Firebase 'messages' collection logic here
+    setTimeout(() => setStatus("Message Sent! We will reach out soon."), 1500);
+  };
 
   return (
     <div className="info-page">
@@ -27,7 +36,8 @@ const InfoPage = ({ causes, iconMap }) => {
               school, or the invisible wall between a homeless veteran and a
               stable job, these are the gaps we bridge. Behind every box of aid
               we deliver is a team that stays. We don't just drop off supplies;
-              we partner with community leaders to identify long-term solutions.
+              we partner with community leaders to identify long-term solutions.{" "}
+              <br />
               By 2026, we’ve learned that humanitarian aid is only as good as
               the transparency behind it. We handle the logistics, the advocacy,
               and the heavy lifting so that your generosity can focus on the
@@ -63,6 +73,85 @@ const InfoPage = ({ causes, iconMap }) => {
       <section id="contact-us" className="info-section alternate-bg">
         <div className="container">
           <h2 className="section-title">Get In Touch</h2>
+          <p className="section-lead">
+            Have questions about our programs or transparency? Reach out below.
+          </p>
+
+          <div className="contact-grid">
+            {/* Left: Contact Info */}
+            <div className="contact-info-col">
+              <div className="contact-info-card">
+                <div className="info-row">
+                  <Mail className="contact-icon" />
+                  <div>
+                    <h4>Email Us</h4>
+                    <p>contact@hopebridge.org</p>
+                  </div>
+                </div>
+                <div className="info-row">
+                  <Phone className="contact-icon" />
+                  <div>
+                    <h4>Call Us</h4>
+                    <p>+1 (555) 123-4567</p>
+                  </div>
+                </div>
+                <div className="info-row">
+                  <MapPin className="contact-icon" />
+                  <div>
+                    <h4>Visit Us</h4>
+                    <p>123 Bridge Street, Hope City</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: The Form */}
+            <div className="contact-form-col">
+              <form className="pro-contact-form" onSubmit={handleContactSubmit}>
+                <div className="form-group-row">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    required
+                    className="form-input-field"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    required
+                    className="form-input-field"
+                  />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Subject"
+                  required
+                  className="form-input-field"
+                />
+                <textarea
+                  placeholder="Your Message"
+                  rows="6"
+                  required
+                  className="form-input-field"
+                ></textarea>
+
+                <button
+                  type="submit"
+                  className="complete-donation-btn"
+                  style={{ marginTop: "10px" }}
+                >
+                  {status ? (
+                    status
+                  ) : (
+                    <>
+                      <Send size={18} style={{ marginRight: "10px" }} /> Send
+                      Message
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
     </div>

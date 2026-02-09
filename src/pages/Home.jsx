@@ -100,7 +100,7 @@ const Home = ({
             </div>
             <div className="stat-card">
               <div className="icon-circle">
-                <Home size={32} />
+                <HomeIcon size={32} />
               </div>
               <h3>2,500+</h3>
               <p>Shelters Provided</p>
