@@ -360,7 +360,10 @@ function App() {
                 </ul>
               </div>
               <div className="footer-col">
-                <h4>Contact Us</h4>
+                <h4>
+                  <Link to="/info#contact-us">Contact Us</Link>
+                </h4>
+
                 <p>
                   <Mail size={16} /> contact@hopebridge.org
                 </p>

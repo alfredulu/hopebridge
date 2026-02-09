@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import CauseCard from "../components/CauseCard";
 import {
   HandHeart,
@@ -33,6 +33,20 @@ const Home = ({
   selectedImg,
   setSelectedImg,
 }) => {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const timer = setTimeout(() => {
+        const id = hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [hash]);
   return (
     <>
       {/* 1. Hero Section */}
@@ -54,7 +68,7 @@ const Home = ({
             <button className="btn-primary" onClick={scrollToDonation}>
               Donate Now
             </button>
-            <Link to="/info#learn-more" className="btn-secondary">
+            <Link to="/info#about-us" className="btn-secondary">
               Learn More
             </Link>
           </div>
@@ -82,7 +96,7 @@ const Home = ({
       </section>
 
       {/* 3. Stats Section */}
-      <div className="stats-container">
+      <div id="stats" className="stats-container">
         <div className="container">
           <div className="section-header-box">
             <h1 className="section-title">Making a Difference</h1>
@@ -124,7 +138,7 @@ const Home = ({
       </div>
 
       {/* 4. Causes Section */}
-      <section className="causes-section">
+      <section id="causes" className="causes-section">
         <div className="container">
           <div className="section-header-box">
             <h1 className="section-title">Where Your Donation Goes</h1>
@@ -217,7 +231,11 @@ const Home = ({
       </section>
 
       {/* 6. Donation Form Section */}
-      <section className="donation-form-section" ref={donationRef}>
+      <section
+        id="donation-form"
+        className="donation-form-section"
+        ref={donationRef}
+      >
         <div className="container">
           <div className="section-header-box">
             <h1 className="section-title">Make Your Donation</h1>
