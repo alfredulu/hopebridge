@@ -331,7 +331,7 @@ function App() {
             <div className="footer-content">
               <div className="footer-col brand-col">
                 <h3>
-                  <Heart size={24} fill="white" className="footer-heart" />
+                  <img src="/favicon.png" alt="" className="footer-logo-img" />
                   <div className="logo">
                     HOPE<span>BRIDGE</span>
                     <sup>&trade;</sup>

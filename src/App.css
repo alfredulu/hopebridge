@@ -145,6 +145,12 @@ a {
   width: 100%;
 }
 
+.custom-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -1120,8 +1126,11 @@ a {
   gap: 10px;
   margin-bottom: 20px;
 }
-.footer-heart {
-  vertical-align: middle;
+
+.footer-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .footer-col h4 {

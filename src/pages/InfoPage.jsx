@@ -26,7 +26,11 @@ const InfoPage = ({ causes, iconMap }) => {
         <nav className="navbar">
           <div className="container nav-content">
             <Link to="/" className="nav-logo">
-              <Heart size={24} fill="white" className="logo-icon" />
+              <img
+                src="/favicon.png" // or the path to your logo file
+                alt="Hopebridge Logo"
+                className="custom-logo-img"
+              />
               <div className="logo-text">
                 HOPE<span>BRIDGE</span>
                 <sup>&trade;</sup>
