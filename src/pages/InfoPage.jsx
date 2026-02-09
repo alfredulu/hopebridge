@@ -103,7 +103,7 @@ const InfoPage = ({ causes, iconMap }) => {
           <div className="contact-grid">
             {/* Left: Contact Info */}
             <div className="contact-info-col">
-              <div className="contact-info-card">
+              <div className="contact-card">
                 <div className="info-row">
                   <Mail className="contact-icon" />
                   <div>
@@ -130,49 +130,54 @@ const InfoPage = ({ causes, iconMap }) => {
 
             {/* Right: The Form */}
             <div className="contact-form-col">
-              <form className="pro-contact-form" onSubmit={handleContactSubmit}>
-                <div className="form-group-row">
+              <div className="contact-card">
+                <form
+                  className="pro-contact-form"
+                  onSubmit={handleContactSubmit}
+                >
+                  <div className="form-group-row">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      required
+                      className="form-input-field"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your Email"
+                      required
+                      className="form-input-field"
+                    />
+                  </div>
                   <input
                     type="text"
-                    placeholder="Your Name"
+                    placeholder="Subject"
                     required
                     className="form-input-field"
                   />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
+                  <textarea
+                    placeholder="Your Message"
+                    rows="6"
                     required
                     className="form-input-field"
-                  />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Subject"
-                  required
-                  className="form-input-field"
-                />
-                <textarea
-                  placeholder="Your Message"
-                  rows="6"
-                  required
-                  className="form-input-field"
-                ></textarea>
+                  ></textarea>
 
-                <button
-                  type="submit"
-                  className="complete-donation-btn"
-                  style={{ marginTop: "10px" }}
-                >
-                  {status ? (
-                    status
-                  ) : (
-                    <>
-                      <Send size={18} style={{ marginRight: "10px" }} /> Send
-                      Message
-                    </>
-                  )}
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    className="complete-donation-btn"
+                    style={{ marginTop: "10px" }}
+                  >
+                    {status ? (
+                      status
+                    ) : (
+                      <>
+                        <Send size={18} style={{ marginRight: "10px" }} /> Send
+                        Message
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
