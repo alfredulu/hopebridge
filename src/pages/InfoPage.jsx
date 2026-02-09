@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { useLocation, Link } from "react-router-dom";
+import { Mail, Phone, MapPin, Send, Heart } from "lucide-react";
 
 const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();
@@ -23,8 +23,29 @@ const InfoPage = ({ causes, iconMap }) => {
 
   return (
     <div className="info-page">
-      {/* About Us Section */}
-      <section id="about-us" className="info-section alternate-bg">
+      <header className="page-header">
+        <nav className="navbar container">
+          <Link to="/" className="nav-logo">
+            <Heart size={24} fill="white" className="logo-icon" />
+            <div className="logo-text">
+              HOPE<span>BRIDGE</span>
+              <sup>&trade;</sup>
+            </div>
+          </Link>
+          <div className="nav-links">
+            <Link to="/info#about-us">About Us</Link>
+            <Link to="/info#learn-more">Our Programs</Link>
+            <Link to="/#">Impact Reports</Link>
+            <Link to="/#">Get Involved</Link>
+            <Link to="/#donation-form" className="nav-donate-btn">
+              Donate Now
+            </Link>
+          </div>
+        </nav>
+      </header>
+
+      {/* 1. About Us Section */}
+      <section id="about-us" className="info-section cream-bg-section">
         <div className="container">
           <h1 className="section-title">The Story Behind the Bridge</h1>
           <div className="about-content-box">
@@ -52,7 +73,7 @@ const InfoPage = ({ causes, iconMap }) => {
       </section>
 
       {/* Learn More (Deep Dive) Section */}
-      <section id="learn-more" className="info-section">
+      <section id="learn-more" className="info-section light-bg-section">
         <div className="container">
           <h2 className="section-title">Our Deep Dive</h2>
           <div className="detailed-causes-list">
@@ -70,7 +91,7 @@ const InfoPage = ({ causes, iconMap }) => {
       </section>
 
       {/* Contact Section Placeholder */}
-      <section id="contact-us" className="info-section alternate-bg">
+      <section id="contact-us" className="info-section cream-bg-section">
         <div className="container">
           <h2 className="section-title">Get In Touch</h2>
           <p className="section-lead">
