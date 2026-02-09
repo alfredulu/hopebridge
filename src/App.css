@@ -206,7 +206,7 @@ body {
 }
 
 .info-section {
-  padding: 100px 0;
+  padding: 50px 0;
 }
 
 /* 🎯 Correct Background Colors */
@@ -264,8 +264,9 @@ body {
   background: white;
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   height: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
 }
 
 .info-row {
