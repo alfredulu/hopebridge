@@ -292,10 +292,31 @@ body {
 }
 
 /* Form Styling */
+.form-header-title {
+  color: var(--dark-green);
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.contact-card .form-subtitle {
+  text-align: left;
+  margin-bottom: 25px;
+  color: var(--light-green);
+  font-size: 0.9rem;
+}
+
 .form-group-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .pro-contact-form .form-input-field {
@@ -612,11 +633,12 @@ body {
   color: var(--dark-green);
   margin-bottom: 10px;
   margin-top: 20px;
+  text-align: left;
 }
 
 .input-label::after {
   content: " *";
-  color: #c76d5a; /* Using your --bright-orange color */
+  color: var(--bright-orange);
 }
 
 .amount-grid-options {

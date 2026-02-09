@@ -53,14 +53,14 @@ const InfoPage = ({ causes, iconMap }) => {
           <div className="about-content-box">
             <p>
               Hopebridge wasn’t born in a boardroom; it was born on the ground.
-              We started with a simple observation: the gap between a family's
-              survival and their success isn't usually a lack of will, it’s a
-              lack of access. Whether it's the 10 miles between an orphan and a
-              school, or the invisible wall between a homeless veteran and a
-              stable job, these are the gaps we bridge. Behind every box of aid
-              we deliver is a team that stays. We don't just drop off supplies;
-              we partner with community leaders to identify long-term solutions.{" "}
-              <br />
+              12 years ago, we started with a simple observation: the gap
+              between a family's survival and their success isn't usually a lack
+              of will, it’s a lack of access. Whether it's the 10 miles between
+              an orphan and a school, or the invisible wall between a homeless
+              veteran and a stable job, these are the gaps we bridge. Behind
+              every box of aid we deliver is a team that stays. We don't just
+              drop off supplies; we partner with community leaders to identify
+              long-term solutions. <br />
               By 2026, we’ve learned that humanitarian aid is only as good as
               the transparency behind it. We handle the logistics, the advocacy,
               and the heavy lifting so that your generosity can focus on the
@@ -128,45 +128,56 @@ const InfoPage = ({ causes, iconMap }) => {
               </div>
             </div>
 
-            {/* Right: The Form */}
+            {/* Right: The Form Card */}
             <div className="contact-form-col">
               <div className="contact-card">
+                <h3 className="form-header-title">Send us a Message</h3>
+                <p className="form-subtitle">
+                  We usually respond within 24 hours.
+                </p>
+
                 <form
                   className="pro-contact-form"
                   onSubmit={handleContactSubmit}
                 >
                   <div className="form-group-row">
-                    <input
-                      type="text"
-                      placeholder="Your Name"
-                      required
-                      className="form-input-field"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Your Email"
-                      required
-                      className="form-input-field"
-                    />
+                    <div className="input-block">
+                      <label className="input-label">Full Name</label>
+                      <input
+                        type="text"
+                        placeholder="Enter your full name"
+                        required
+                        className="form-input-field"
+                      />
+                    </div>
+                    <div className="input-block">
+                      <label className="input-label">Email Address</label>
+                      <input
+                        type="email"
+                        placeholder="yourname@example.com"
+                        required
+                        className="form-input-field"
+                      />
+                    </div>
                   </div>
+
+                  <label className="input-label">Subject</label>
                   <input
                     type="text"
-                    placeholder="Subject"
+                    placeholder="How can we help?"
                     required
                     className="form-input-field"
                   />
+
+                  <label className="input-label">Your Message</label>
                   <textarea
-                    placeholder="Your Message"
-                    rows="6"
+                    placeholder="Tell us more about your inquiry..."
+                    rows="4"
                     required
                     className="form-input-field"
                   ></textarea>
 
-                  <button
-                    type="submit"
-                    className="complete-donation-btn"
-                    style={{ marginTop: "10px" }}
-                  >
+                  <button type="submit" className="complete-donation-btn">
                     {status ? (
                       status
                     ) : (
