@@ -124,8 +124,98 @@ body {
 }
 
 /* --- INFO PAGE & CONTACT FORM --- */
+.page-header {
+  background: linear-gradient(
+      color-mix(in srgb, var(--light-green) 80%, transparent)
+    ),
+    url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1500");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.navbar {
+  padding: 20px 0;
+  width: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.logo-icon {
+  vertical-align: middle;
+}
+
+.logo-text {
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.logo-text span {
+  color: var(--bright-orange);
+}
+
+.logo-text sup {
+  font-size: 0.8rem;
+  top: -0.8em;
+  color: var(--light-cream);
+  vertical-align: super;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px; /* Vertical spacing and safety padding */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--bright-orange);
+}
+
+.nav-donate-btn {
+  background: var(--bright-orange);
+  color: white !important;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-weight: 800 !important;
+  transition: background-color 0.3s ease;
+}
+
+.nav-donate-btn:hover {
+  background: #b35a48; /* Slightly darker orange */
+}
+
 .info-section {
   padding: 100px 0;
+}
+
+/* 🎯 Correct Background Colors */
+.cream-bg-section {
+  background-color: var(--cream-bg);
+}
+
+.light-bg-section {
+  background-color: var(--light-cream);
 }
 
 .alternate-bg {
@@ -1030,6 +1120,24 @@ body {
   }
 
   /* Info page */
+  .nav-content {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .nav-links {
+    gap: 15px;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-donate-btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
   }

@@ -24,22 +24,24 @@ const InfoPage = ({ causes, iconMap }) => {
   return (
     <div className="info-page">
       <header className="page-header">
-        <nav className="navbar container">
-          <Link to="/" className="nav-logo">
-            <Heart size={24} fill="white" className="logo-icon" />
-            <div className="logo-text">
-              HOPE<span>BRIDGE</span>
-              <sup>&trade;</sup>
-            </div>
-          </Link>
-          <div className="nav-links">
-            <Link to="/info#about-us">About Us</Link>
-            <Link to="/info#learn-more">Our Programs</Link>
-            <Link to="/#">Impact Reports</Link>
-            <Link to="/#">Get Involved</Link>
-            <Link to="/#donation-form" className="nav-donate-btn">
-              Donate Now
+        <nav className="navbar">
+          <div className="container nav-content">
+            <Link to="/" className="nav-logo">
+              <Heart size={24} fill="white" className="logo-icon" />
+              <div className="logo-text">
+                HOPE<span>BRIDGE</span>
+                <sup>&trade;</sup>
+              </div>
             </Link>
+            <div className="nav-links">
+              <Link to="/info#about-us">About Us</Link>
+              <Link to="/info#learn-more">Our Programs</Link>
+              <Link to="/#">Impact Reports</Link>
+              <Link to="/#">Get Involved</Link>
+              <Link to="/#donation-form" className="nav-donate-btn">
+                Donate Now
+              </Link>
+            </div>
           </div>
         </nav>
       </header>
@@ -91,7 +93,7 @@ const InfoPage = ({ causes, iconMap }) => {
       </section>
 
       {/* Contact Section Placeholder */}
-      <section id="contact-us" className="info-section cream-bg-section">
+      <section id="contact-us" className="info-section light-bg-section">
         <div className="container">
           <h2 className="section-title">Get In Touch</h2>
           <p className="section-lead">
