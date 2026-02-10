@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import CauseCard from "../components/CauseCard";
 import {
@@ -11,6 +11,7 @@ import {
   Heart,
 } from "lucide-react";
 import "./Home.css";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const Home = ({
   causes,
@@ -35,6 +36,8 @@ const Home = ({
   setSelectedImg,
 }) => {
   const { hash } = useLocation();
+  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [donationAmount, setDonationAmount] = useState("50");
 
   useEffect(() => {
     if (hash) {
@@ -174,7 +177,7 @@ const Home = ({
         </div>
       </section>
 
-      {/* 5. How It Works Section */}
+      {/* How It Works Section */}
       <section className="how-it-works">
         <div className="container">
           <div className="section-header-box">
@@ -328,6 +331,85 @@ const Home = ({
                       <span className="warning-icon">⚠️</span> {formError}
                     </div>
                   )}
+
+                  <div
+                    className="payment-area"
+                    style={{
+                      marginTop: "30px",
+                      borderTop: "1px solid #eee",
+                      paddingTop: "20px",
+                    }}
+                  >
+                    <label className="input-label">Select Payment Method</label>
+                    <div className="payment-selector-grid">
+                      <button
+                        type="button"
+                        className={`pay-method-btn ${
+                          paymentMethod === "card" ? "active" : ""
+                        }`}
+                        onClick={() => setPaymentMethod("card")}
+                      >
+                        💳 Credit Card
+                      </button>
+                      <button
+                        type="button"
+                        className={`pay-method-btn ${
+                          paymentMethod === "paypal" ? "active" : ""
+                        }`}
+                        onClick={() => setPaymentMethod("paypal")}
+                      >
+                        🅿️ PayPal
+                      </button>
+                      <button
+                        type="button"
+                        className={`pay-method-btn ${
+                          paymentMethod === "crypto" ? "active" : ""
+                        }`}
+                        onClick={() => setPaymentMethod("crypto")}
+                      >
+                        ₿ Crypto
+                      </button>
+                    </div>
+
+                    <div className="gateway-display-box">
+                      {paymentMethod === "card" && (
+                        <div className="mock-card-form">
+                          <p className="gateway-hint">
+                            Pay securely via Integrated Card Field
+                          </p>
+                          <div className="placeholder-input">Card Number</div>
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <div
+                              className="placeholder-input"
+                              style={{ flex: 1 }}
+                            >
+                              MM/YY
+                            </div>
+                            <div
+                              className="placeholder-input"
+                              style={{ flex: 1 }}
+                            >
+                              CVC
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {paymentMethod === "paypal" && (
+                        <div className="mock-paypal">
+                          <div className="placeholder-paypal-btn">
+                            PayPal Button Placeholder
+                          </div>
+                        </div>
+                      )}
+
+                      {paymentMethod === "crypto" && (
+                        <button type="button" className="crypto-pay-btn">
+                          Donate with Bitcoin / USDT
+                        </button>
+                      )}
+                    </div>
+                  </div>
 
                   <button
                     type="submit"
