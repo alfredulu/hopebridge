@@ -222,6 +222,9 @@ a {
 }
 
 .centered-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 100px 0;
 }
@@ -248,7 +251,7 @@ a {
 }
 
 .about-content-box p {
-  text-align: center; /* Centers the actual text lines */
+  text-align: center;
   margin-bottom: 25px;
   font-size: 1.15rem;
 }
@@ -264,7 +267,7 @@ a {
   font-weight: 800;
   color: var(--dark-green);
   margin-top: 40px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 /* 🎯 Correct Background Colors */
@@ -410,6 +413,33 @@ a {
   background-color: #f9f9f9;
   margin-bottom: 20px;
   font-size: 1rem;
+}
+
+.success-popup-card {
+  background: white;
+  padding: 50px;
+  border-radius: 30px;
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.success-popup-card h2 {
+  color: var(--dark-green);
+  margin: 0;
+  font-weight: 800;
+}
+
+.success-popup-card p {
+  color: var(--light-green);
+  line-height: 1.6;
+  margin-bottom: 10px;
 }
 
 /* 2. MISSION SECTION */

@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Send, Heart, Quote } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Heart,
+  Quote,
+  CheckCircle,
+} from "lucide-react";
+import { db } from "../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 
 const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();
-  const [status, setStatus] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (hash) {
@@ -13,11 +24,29 @@ const InfoPage = ({ causes, iconMap }) => {
     }
   }, [hash]);
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
-    // Future: Add Firebase 'messages' collection logic here
-    setTimeout(() => setStatus("Message Sent! We will reach out soon."), 1500);
+    setIsSending(true);
+
+    const formData = new FormData(e.target);
+    const messageData = {
+      name: formData.get("fullName"),
+      email: formData.get("email"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
+      date: new Date().toISOString(),
+    };
+
+    try {
+      await addDoc(collection(db, "messages"), messageData);
+      setShowSuccess(true);
+      e.target.reset();
+    } catch (error) {
+      console.error("Firebase Error:", error);
+      alert("Error sending message. Please try again.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -140,6 +169,7 @@ const InfoPage = ({ causes, iconMap }) => {
                       <label className="input-label">Full Name</label>
                       <input
                         type="text"
+                        name="fullName"
                         placeholder="Enter your full name"
                         required
                         className="form-input-field"
@@ -149,6 +179,7 @@ const InfoPage = ({ causes, iconMap }) => {
                       <label className="input-label">Email Address</label>
                       <input
                         type="email"
+                        name="email"
                         placeholder="yourname@example.com"
                         required
                         className="form-input-field"
@@ -159,6 +190,7 @@ const InfoPage = ({ causes, iconMap }) => {
                   <label className="input-label">Subject</label>
                   <input
                     type="text"
+                    name="subject"
                     placeholder="How can we help?"
                     required
                     className="form-input-field"
@@ -166,15 +198,20 @@ const InfoPage = ({ causes, iconMap }) => {
 
                   <label className="input-label">Your Message</label>
                   <textarea
+                    name="message"
                     placeholder="Tell us more about your inquiry..."
                     rows="4"
                     required
                     className="form-input-field"
                   ></textarea>
 
-                  <button type="submit" className="complete-donation-btn">
-                    {status ? (
-                      status
+                  <button
+                    type="submit"
+                    className="complete-donation-btn"
+                    disabled={isSending}
+                  >
+                    {isSending ? (
+                      <div className="btn-spinner"></div>
                     ) : (
                       <>
                         <Send size={18} style={{ marginRight: "10px" }} /> Send
@@ -188,6 +225,28 @@ const InfoPage = ({ causes, iconMap }) => {
           </div>
         </div>
       </section>
+
+      {showSuccess && (
+        <div className="modal-backdrop" onClick={() => setShowSuccess(false)}>
+          <div
+            className="success-popup-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CheckCircle size={60} color="#2d5a3c" />
+            <h2>Message Sent!</h2>
+            <p>
+              Thank you for reaching out to Hopebridge. One of our team members
+              will get back to you shortly via email.
+            </p>
+            <button
+              className="btn-primary"
+              onClick={() => setShowSuccess(false)}
+            >
+              Great, thanks!
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
