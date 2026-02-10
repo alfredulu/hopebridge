@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { db } from "../firebase/config";
 import { collection, addDoc } from "firebase/firestore";
+import "./InfoPage.css";
 
 const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();

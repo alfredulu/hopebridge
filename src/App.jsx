@@ -208,7 +208,6 @@ function App() {
     <Router>
       <div className="app-container">
         <Routes>
-          {/* Home Page Route */}
           <Route
             path="/"
             element={
@@ -237,7 +236,6 @@ function App() {
             }
           />
 
-          {/* 🎯 The New Information Hub Page */}
           <Route
             path="/info"
             element={<InfoPage causes={causes} iconMap={iconMap} />}
@@ -267,7 +265,6 @@ function App() {
                 </div>
 
                 <div className="modal-info-side">
-                  {/* 🎯 TOP: Small & Tight Header */}
                   <div className="modal-header">
                     <div className="modal-icon-circle-mini">
                       {iconMap[selectedCause.title] || <Heart size={20} />}
@@ -275,14 +272,12 @@ function App() {
                     <h3 className="modal-title-small">{selectedCause.title}</h3>
                   </div>
 
-                  {/* 🎯 MIDDLE: Large Scrolling Area for Story */}
                   <div className="modal-scroll-area">
                     <p className="full-desc-text">
                       {selectedCause.fullDescription}
                     </p>
                   </div>
 
-                  {/* 🎯 BOTTOM: Small & Pinned Footer */}
                   <div className="modal-footer-mini">
                     <div className="modal-stats-mini">
                       <div className="progress-stats">
@@ -325,7 +320,6 @@ function App() {
           </div>
         )}
 
-        {/* 8. Footer Section */}
         <footer className="footer">
           <div className="container">
             <div className="footer-content">

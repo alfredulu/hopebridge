@@ -10,6 +10,7 @@ import {
   Utensils,
   Heart,
 } from "lucide-react";
+import "./Home.css";
 
 const Home = ({
   causes,
