@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import CauseCard from "../components/CauseCard";
 import {
@@ -43,8 +43,8 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
   // --- REFS ---
   const donationRef = useRef(null);
   const amountInputRef = useRef(null);
-  const categorySelectRef = useRef(null); \
-  
+  const categorySelectRef = useRef(null);
+
   // --- SCROLL HELPER ---
   const scrollToDonation = () => {
     if (donationRef.current) {
@@ -52,12 +52,15 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
     }
   };
 
-   // 3. NEW: Helper to handle remote clicks (from Cards or Modal)
-   const handleRemoteDonateClick = (causeTitle) => {
-    setFormCategory(causeTitle); // Set the dropdown value
-    scrollToDonation(); // Scroll to form
+  // 3. NEW: Helper to handle remote clicks (from Cards or Modal)
+  const handleRemoteDonateClick = (causeTitle) => {
+    // 1. Change the dropdown value
+    setFormCategory(causeTitle);
 
-    // Focus the dropdown after scroll so user sees it "hovered/active"
+    // 2. Scroll to the form (This is what you asked for!)
+    scrollToDonation();
+
+    // 3. Highlight the dropdown so they know it changed
     setTimeout(() => {
       if (categorySelectRef.current) {
         categorySelectRef.current.focus();
@@ -67,18 +70,91 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
 
   useEffect(() => {
     if (hash) {
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         const id = hash.replace("#", "");
         const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
+        if (element) element.scrollIntoView({ behavior: "smooth" });
       }, 150);
-      return () => clearTimeout(timer);
     }
   }, [hash]);
 
- 
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const q = query(
+          collection(db, "donations"),
+          orderBy("date", "desc"),
+          limit(5)
+        );
+        const querySnapshot = await getDocs(q);
+        setRecentDonations(querySnapshot.docs.map((doc) => doc.data()));
+      } catch (e) {
+        console.log("Error fetching recent:", e);
+      }
+    };
+    if (submitted) fetchRecent();
+  }, [submitted]);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "gallery"));
+        setGalleryImages(
+          querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      } catch (e) {
+        console.error("Gallery fetch failed:", e);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  const handleDonation = async (e) => {
+    e.preventDefault();
+    setFormError("");
+    const formData = new FormData(e.target);
+    const amount = Number(amountValue) || Number(donationAmount); // Handle button or custom input
+    const selectedCategory = formCategory; // Use state, not formData, to be safe
+
+    if (amount < 10) {
+      setFormError("Minimum donation is $10.");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    const donationData = {
+      donorName: formData.get("fullName"),
+      donorEmail: formData.get("email"),
+      amount: amount,
+      category: selectedCategory,
+      date: new Date().toISOString(),
+    };
+
+    try {
+      await addDoc(collection(db, "donations"), donationData);
+
+      // Update Cause Raised Amount
+      const causeToUpdate = causes.find((c) => c.title === selectedCategory);
+      if (causeToUpdate) {
+        const causeRef = doc(db, "causes", causeToUpdate.id);
+        await updateDoc(causeRef, { raised: increment(amount) });
+      }
+
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#2d5a3c", "#c76d5a", "#fff2d9"],
+      });
+      setSubmitted(true);
+      setIsProcessing(false);
+    } catch (error) {
+      console.error("Donation failed:", error);
+      setFormError("Something went wrong. Please try again.");
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <>
@@ -197,7 +273,7 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
                   image={cause.image}
                   description={cause.description}
                   benefits={cause.benefits || []}
-                  onDonateClick={scrollToDonation}
+                  onDonateClick={() => handleRemoteDonateClick(cause.title)}
                   onImageClick={() => setSelectedCause(cause)}
                 />
               ))
@@ -308,23 +384,23 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
                     className="custom-amt-btn"
                     onClick={() => {
                       setAmountValue("");
-                      amountInputRef.current.focus();
+                      if (amountInputRef.current) {
+                        amountInputRef.current.focus();
+                      }
                     }}
                   >
                     Custom Amount
                   </button>
 
-                  <label className="input-label">Enter Amount ($)</label>
                   <input
                     ref={amountInputRef}
                     type="number"
                     name="amount"
                     className="form-input-field"
                     placeholder="Minimum $10"
-                    required
                     value={amountValue}
-                    onChange={(e) => setAmountValue(e.target.value)} // Allow typing too
-                    onFocus={() => setFormError("")}
+                    onChange={(e) => setAmountValue(e.target.value)}
+                    required
                   />
 
                   <label className="input-label">Donation Category</label>
@@ -384,7 +460,7 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
                         }`}
                         onClick={() => setPaymentMethod("card")}
                       >
-                        💳 Credit Card
+                        💳 Card
                       </button>
                       <button
                         type="button"
@@ -451,14 +527,14 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
                       {paymentMethod === "paypal" && (
                         <div className="mock-paypal">
                           <div className="placeholder-paypal-btn">
-                            PayPal Button Placeholder
+                            PayPal Button
                           </div>
                         </div>
                       )}
 
                       {paymentMethod === "crypto" && (
                         <button type="button" className="crypto-pay-btn">
-                          Donate with Bitcoin / USDT
+                          Donate with Crypto
                         </button>
                       )}
                     </div>
@@ -530,9 +606,9 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
                   </h4>
                   <div className="donation-list">
                     {recentDonations.length > 0 ? (
-                      recentDonations.map((don, index) => (
+                      recentDonations.map((don, idx) => (
                         <div
-                          key={index}
+                          key={idx}
                           className="donation-item"
                           style={{
                             display: "flex",
@@ -612,6 +688,80 @@ const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
           </div>
         )}
       </section>
+
+      {/* 💎 THE CAUSE MODAL (Pop-out) */}
+      {selectedCause && (
+        <div className="modal-backdrop" onClick={() => setSelectedCause(null)}>
+          <div
+            className="cause-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="close-modal"
+              onClick={() => setSelectedCause(null)}
+            >
+              &times;
+            </button>
+
+            <div className="modal-grid">
+              <div className="modal-image-side">
+                <img src={selectedCause.image} alt={selectedCause.title} />
+              </div>
+
+              <div className="modal-info-side">
+                <div className="modal-header">
+                  <div className="modal-icon-circle-mini">
+                    {iconMap[selectedCause.title] || <Heart size={20} />}
+                  </div>
+                  <h3 className="modal-title-small">{selectedCause.title}</h3>
+                </div>
+
+                <div className="modal-scroll-area">
+                  <p className="full-desc-text">
+                    {selectedCause.fullDescription}
+                  </p>
+                </div>
+
+                <div className="modal-footer-mini">
+                  <div className="modal-stats-mini">
+                    <div className="progress-stats">
+                      <span>
+                        Raised: ${Number(selectedCause.raised).toLocaleString()}
+                      </span>
+                      <span>
+                        {Math.round(
+                          (selectedCause.raised / selectedCause.goal) * 100
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="progress-bar-bg">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (selectedCause.raised / selectedCause.goal) * 100
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  <button
+                    className="donate-btn-small"
+                    onClick={() => {
+                      handleRemoteDonateClick(selectedCause.title);
+                      setSelectedCause(null);
+                    }}
+                  >
+                    Donate to this cause
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
