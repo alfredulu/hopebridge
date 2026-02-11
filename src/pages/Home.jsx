@@ -371,6 +371,20 @@ const Home = ({
                       </button>
                     </div>
 
+                    {/* --- Donation Summary --- */}
+                    <div className="donation-summary-box">
+                      <div className="summary-row">
+                        <span>Giving to:</span>
+                        <strong>
+                          {selectedCause ? selectedCause.title : "General Fund"}
+                        </strong>
+                      </div>
+                      <div className="summary-row">
+                        <span>Total Amount:</span>
+                        <span className="summary-total">${donationAmount}</span>
+                      </div>
+                    </div>
+
                     <div className="gateway-display-box">
                       {paymentMethod === "card" && (
                         <div className="mock-card-form">

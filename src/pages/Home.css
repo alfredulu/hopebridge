@@ -436,6 +436,68 @@
   font-size: 1rem;
 }
 
+.payment-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.pay-method-btn {
+  padding: 15px;
+  border: 2px solid #eee;
+  background: white;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.pay-method-btn.active {
+  border-color: var(--brand-green);
+  background-color: var(--light-cream);
+  color: var(--brand-green);
+}
+
+.gateway-display-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: #fdfdfd;
+  border: 1px dashed #ddd; /* Dashed lines remind us this is a placeholder */
+  border-radius: 12px;
+}
+
+.placeholder-input {
+  background: #f5f5f5;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #aaa;
+  font-size: 0.85rem;
+  border: 1px solid #eee;
+}
+
+.placeholder-paypal-btn {
+  background: #ffc439;
+  padding: 15px;
+  border-radius: 50px;
+  text-align: center;
+  font-weight: bold;
+  color: #2c2e2f;
+}
+
+.crypto-pay-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #0052ff; /* Coinbase Blue */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .complete-donation-btn {
   width: 100%;
   padding: 18px;
@@ -460,7 +522,60 @@
   margin-right: 10px;
 }
 
-/* 7. Gallery Section */
+.complete-donation-btn:disabled {
+  background-color: color-mix(in srgb, var(--brand-green) 55%, white);
+  cursor: not-allowed;
+}
+
+.thank-you-message {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.thank-you-message .btn-secondary {
+  background-color: var(--brand-green);
+  color: white;
+  border: none;
+  margin-top: 20px;
+}
+
+.thank-you-message .btn-secondary:hover {
+  background-color: var(--dark-green);
+}
+
+.donation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.donation-item {
+  background: #f9fbf9;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border-left: 4px solid var(--brand-green);
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.donation-item span {
+  font-weight: bold;
+  color: var(--brand-green);
+}
+
+.tax-info {
+  text-align: center;
+  color: #999;
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
+
+/* Gallery Section */
 .gallery-section {
   padding: 20px 0;
   background-color: white;
@@ -554,59 +669,6 @@
   color: white;
   font-size: 2.5rem;
   cursor: pointer;
-}
-
-.complete-donation-btn:disabled {
-  background-color: color-mix(in srgb, var(--brand-green) 55%, white);
-  cursor: not-allowed;
-}
-
-.thank-you-message {
-  animation: fadeIn 0.6s ease-out;
-}
-
-.thank-you-message .btn-secondary {
-  background-color: var(--brand-green);
-  color: white;
-  border: none;
-  margin-top: 20px;
-}
-
-.thank-you-message .btn-secondary:hover {
-  background-color: var(--dark-green);
-}
-
-.donation-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-}
-
-.donation-item {
-  background: #f9fbf9;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border-left: 4px solid var(--brand-green);
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-}
-
-.donation-item span {
-  font-weight: bold;
-  color: var(--brand-green);
-}
-
-.tax-info {
-  text-align: center;
-  color: #999;
-  font-size: 0.85rem;
-  margin-top: 20px;
 }
 
 /* 🌕 Modal Backdrop with Blur */
