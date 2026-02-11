@@ -19,6 +19,7 @@ const Home = ({
   iconMap,
   scrollToDonation,
   setSelectedCause,
+  selectedCause,
   donationRef,
   handleDonation,
   submitted,
@@ -37,7 +38,11 @@ const Home = ({
 }) => {
   const { hash } = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("card");
-  const [donationAmount, setDonationAmount] = useState("50");
+  // 1. NEW: State to control the dropdown and summary text
+  const [formCategory, setFormCategory] = useState("All Causes");
+
+  // 2. NEW: Ref to focus the dropdown
+  const categorySelectRef = useRef(null);
 
   useEffect(() => {
     if (hash) {
@@ -51,6 +56,20 @@ const Home = ({
       return () => clearTimeout(timer);
     }
   }, [hash]);
+
+  // 3. NEW: Helper to handle remote clicks (from Cards or Modal)
+  const handleRemoteDonateClick = (causeTitle) => {
+    setFormCategory(causeTitle); // Set the dropdown value
+    scrollToDonation(); // Scroll to form
+
+    // Focus the dropdown after scroll so user sees it "hovered/active"
+    setTimeout(() => {
+      if (categorySelectRef.current) {
+        categorySelectRef.current.focus();
+      }
+    }, 800);
+  };
+
   return (
     <>
       {/* 1. Hero Section */}
@@ -267,7 +286,7 @@ const Home = ({
                         className="amt-opt"
                         onClick={() => {
                           setAmountValue(amt);
-                          setFormError(""); // Clear errors when a valid button is clicked
+                          setFormError("");
                         }}
                       >
                         ${amt}
@@ -293,14 +312,20 @@ const Home = ({
                     className="form-input-field"
                     placeholder="Minimum $10"
                     required
-                    value={amountValue} // Controlled input
+                    value={amountValue}
                     onChange={(e) => setAmountValue(e.target.value)} // Allow typing too
                     onFocus={() => setFormError("")}
                   />
 
                   <label className="input-label">Donation Category</label>
-                  <select name="category" className="form-input-field">
-                    <option>All Causes</option>
+                  <select
+                    name="category"
+                    className="form-input-field"
+                    value={formCategory}
+                    ref={categorySelectRef}
+                    onChange={(e) => setFormCategory(e.target.value)}
+                  >
+                    <option value="All Causes">All Causes</option>
                     {causes.map((c) => (
                       <option key={c.id} value={c.title}>
                         {c.title}
@@ -376,12 +401,16 @@ const Home = ({
                       <div className="summary-row">
                         <span>Giving to:</span>
                         <strong>
-                          {selectedCause ? selectedCause.title : "General Fund"}
+                          {formCategory === "All Causes"
+                            ? "General Fund"
+                            : formCategory}
                         </strong>
                       </div>
                       <div className="summary-row">
                         <span>Total Amount:</span>
-                        <span className="summary-total">${donationAmount}</span>
+                        <span className="summary-total">
+                          ${amountValue || "0"}
+                        </span>
                       </div>
                     </div>
 
