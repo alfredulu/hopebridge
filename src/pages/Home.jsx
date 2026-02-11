@@ -425,19 +425,22 @@ const Home = ({
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="complete-donation-btn"
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? (
-                      <span className="spinner-container">
-                        <div className="btn-spinner"></div> Processing...
-                      </span>
-                    ) : (
-                      "Complete Donation"
-                    )}
-                  </button>
+                  {paymentMethod === "card" && (
+                    <button
+                      type="submit"
+                      className="complete-donation-btn"
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? (
+                        <span className="spinner-container">
+                          <div className="btn-spinner"></div> Processing...
+                        </span>
+                      ) : (
+                        "Complete Donation"
+                      )}
+                    </button>
+                  )}
+
                   <p className="tax-info">
                     Your donation is tax-deductible. A receipt will be sent to
                     your email.
