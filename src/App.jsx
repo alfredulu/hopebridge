@@ -1,202 +1,44 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import InfoPage from "./pages/InfoPage";
 import { db } from "./firebase/config";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  doc,
-  increment,
-  query,
-  orderBy,
-  limit,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import "./App.css";
 
-import {
-  Coins,
-  Building2,
-  Heart,
-  Mail,
-  Phone,
-  MapPin,
-  Baby,
-} from "lucide-react";
-import confetti from "canvas-confetti";
+import { Coins, Building2, Baby, Mail, Phone, MapPin } from "lucide-react";
 
 function App() {
-  const [selectedCause, setSelectedCause] = useState(null);
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const donationRef = useRef(null);
-  const [formError, setFormError] = useState("");
-  const amountInputRef = useRef(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [recentDonations, setRecentDonations] = useState([]);
-  const [amountValue, setAmountValue] = useState("");
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [selectedImg, setSelectedImg] = useState(null);
 
   const getCleanFirstName = (fullName) => {
     if (!fullName) return "Hero";
-
     const parts = fullName.split(/[^a-zA-Z]/).filter((part) => part.length > 0);
-
     const realName = parts.find((part) => part.length > 1);
-
     if (realName) {
       return realName.charAt(0).toUpperCase() + realName.slice(1).toLowerCase();
     }
-
     return parts[0] || "Hero";
   };
 
   useEffect(() => {
-    const fetchRecent = async () => {
-      try {
-        const q = query(
-          collection(db, "donations"),
-          orderBy("date", "desc"),
-          limit(5)
-        );
-        const querySnapshot = await getDocs(q);
-        const docs = querySnapshot.docs.map((doc) => doc.data());
-        setRecentDonations(docs);
-      } catch (e) {
-        console.log("Error fetching recent:", e);
-      }
-    };
-
-    if (submitted) fetchRecent();
-  }, [submitted]);
-
-  useEffect(() => {
     const fetchCauses = async () => {
       try {
-        console.log("1. Starting fetch...");
-        console.log("Current Database ID:", db.app.options.projectId);
         const querySnapshot = await getDocs(collection(db, "causes"));
-
-        console.log("2. Documents found:", querySnapshot.size);
-
-        if (querySnapshot.empty) {
-          console.log("3. Database is empty or collection name is wrong.");
-        }
-
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
-        console.log("4. Final Data for State:", data);
         setCauses(data);
       } catch (error) {
-        console.log("ERROR DETECTED:", error.message);
+        console.log("Error:", error.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchCauses();
   }, []);
-
-  useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "gallery"));
-        const images = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setGalleryImages(images);
-      } catch (e) {
-        console.error("Gallery fetch failed:", e);
-      }
-    };
-    fetchGallery();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCause) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [selectedCause]);
-
-  const scrollToDonation = () => {
-    donationRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleDonation = async (e) => {
-    e.preventDefault();
-    setFormError("");
-
-    const formData = new FormData(e.target);
-    const donationAmount = Number(formData.get("amount"));
-    const selectedCategory = formData.get("category");
-
-    if (donationAmount < 10) {
-      setFormError("Minimum donation is $10. Please enter a valid amount.");
-      return;
-    }
-
-    if (selectedCategory === "All Causes") {
-      setFormError("Please select a specific cause to support.");
-      return;
-    }
-
-    setIsProcessing(true);
-
-    const donationData = {
-      donorName: formData.get("fullName"),
-      donorEmail: formData.get("email"),
-      amount: donationAmount,
-      category: selectedCategory,
-      date: new Date().toISOString(),
-    };
-
-    try {
-      await addDoc(collection(db, "donations"), donationData);
-
-      const causeToUpdate = causes.find((c) => c.title === selectedCategory);
-      if (causeToUpdate) {
-        const causeRef = doc(db, "causes", causeToUpdate.id);
-        await updateDoc(causeRef, { raised: increment(donationAmount) });
-
-        setCauses((prevCauses) =>
-          prevCauses.map((c) =>
-            c.id === causeToUpdate.id
-              ? { ...c, raised: Number(c.raised) + donationAmount }
-              : c
-          )
-        );
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ["#2d5a3c", "#c76d5a", "#fff2d9"],
-        });
-
-        setSubmitted(true);
-      } else {
-        console.error("Cause match failed for:", selectedCategory);
-      }
-
-      setIsProcessing(false);
-    } catch (error) {
-      console.error("Donation failed:", error);
-      setFormError("Something went wrong. Please try again.");
-      setIsProcessing(false);
-    }
-  };
 
   const iconMap = {
     "Help the Poor": <Coins size={24} />,
@@ -215,23 +57,7 @@ function App() {
                 causes={causes}
                 loading={loading}
                 iconMap={iconMap}
-                scrollToDonation={scrollToDonation}
-                setSelectedCause={setSelectedCause}
-                donationRef={donationRef}
-                handleDonation={handleDonation}
-                submitted={submitted}
-                setSubmitted={setSubmitted}
-                formError={formError}
-                setFormError={setFormError}
-                amountInputRef={amountInputRef}
-                amountValue={amountValue}
-                setAmountValue={setAmountValue}
-                isProcessing={isProcessing}
-                recentDonations={recentDonations}
                 getCleanFirstName={getCleanFirstName}
-                galleryImages={galleryImages}
-                selectedImg={selectedImg}
-                setSelectedImg={setSelectedImg}
               />
             }
           />
@@ -241,84 +67,6 @@ function App() {
             element={<InfoPage causes={causes} iconMap={iconMap} />}
           />
         </Routes>
-
-        {/* 💎 THE CAUSE MODAL (Pop-out) */}
-        {selectedCause && (
-          <div
-            className="modal-backdrop"
-            onClick={() => setSelectedCause(null)}
-          >
-            <div
-              className="cause-modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="close-modal"
-                onClick={() => setSelectedCause(null)}
-              >
-                &times;
-              </button>
-
-              <div className="modal-grid">
-                <div className="modal-image-side">
-                  <img src={selectedCause.image} alt={selectedCause.title} />
-                </div>
-
-                <div className="modal-info-side">
-                  <div className="modal-header">
-                    <div className="modal-icon-circle-mini">
-                      {iconMap[selectedCause.title] || <Heart size={20} />}
-                    </div>
-                    <h3 className="modal-title-small">{selectedCause.title}</h3>
-                  </div>
-
-                  <div className="modal-scroll-area">
-                    <p className="full-desc-text">
-                      {selectedCause.fullDescription}
-                    </p>
-                  </div>
-
-                  <div className="modal-footer-mini">
-                    <div className="modal-stats-mini">
-                      <div className="progress-stats">
-                        <span>
-                          Raised: $
-                          {Number(selectedCause.raised).toLocaleString()}
-                        </span>
-                        <span>
-                          {Math.round(
-                            (selectedCause.raised / selectedCause.goal) * 100
-                          )}
-                          %
-                        </span>
-                      </div>
-                      <div className="progress-bar-bg">
-                        <div
-                          className="progress-bar-fill"
-                          style={{
-                            width: `${
-                              (selectedCause.raised / selectedCause.goal) * 100
-                            }%`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-
-                    <button
-                      className="donate-btn-small"
-                      onClick={() => {
-                        setSelectedCause(null);
-                        scrollToDonation();
-                      }}
-                    >
-                      Donate to this cause
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         <footer className="footer">
           <div className="container">

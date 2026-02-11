@@ -10,39 +10,60 @@ import {
   Utensils,
   Heart,
 } from "lucide-react";
+import { db } from "../firebase/config";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  increment,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+} from "firebase/firestore";
+import confetti from "canvas-confetti";
 import "./Home.css";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const Home = ({
-  causes,
-  loading,
-  iconMap,
-  scrollToDonation,
-  setSelectedCause,
-  selectedCause,
-  donationRef,
-  handleDonation,
-  submitted,
-  setSubmitted,
-  formError,
-  setFormError,
-  amountInputRef,
-  amountValue,
-  setAmountValue,
-  isProcessing,
-  recentDonations,
-  getCleanFirstName,
-  galleryImages,
-  selectedImg,
-  setSelectedImg,
-}) => {
+const Home = ({ causes, loading, iconMap, getCleanFirstName }) => {
   const { hash } = useLocation();
-  const [paymentMethod, setPaymentMethod] = useState("card");
-  // 1. NEW: State to control the dropdown and summary text
-  const [formCategory, setFormCategory] = useState("All Causes");
 
-  // 2. NEW: Ref to focus the dropdown
-  const categorySelectRef = useRef(null);
+  const [selectedCause, setSelectedCause] = useState(null); // Controls the Modal
+  const [formCategory, setFormCategory] = useState("All Causes"); // Controls the Dropdown
+  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [donationAmount, setDonationAmount] = useState("50");
+  const [amountValue, setAmountValue] = useState("");
+  const [formError, setFormError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [recentDonations, setRecentDonations] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [selectedImg, setSelectedImg] = useState(null);
+
+  // --- REFS ---
+  const donationRef = useRef(null);
+  const amountInputRef = useRef(null);
+  const categorySelectRef = useRef(null); \
+  
+  // --- SCROLL HELPER ---
+  const scrollToDonation = () => {
+    if (donationRef.current) {
+      donationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+   // 3. NEW: Helper to handle remote clicks (from Cards or Modal)
+   const handleRemoteDonateClick = (causeTitle) => {
+    setFormCategory(causeTitle); // Set the dropdown value
+    scrollToDonation(); // Scroll to form
+
+    // Focus the dropdown after scroll so user sees it "hovered/active"
+    setTimeout(() => {
+      if (categorySelectRef.current) {
+        categorySelectRef.current.focus();
+      }
+    }, 800);
+  };
 
   useEffect(() => {
     if (hash) {
@@ -57,18 +78,7 @@ const Home = ({
     }
   }, [hash]);
 
-  // 3. NEW: Helper to handle remote clicks (from Cards or Modal)
-  const handleRemoteDonateClick = (causeTitle) => {
-    setFormCategory(causeTitle); // Set the dropdown value
-    scrollToDonation(); // Scroll to form
-
-    // Focus the dropdown after scroll so user sees it "hovered/active"
-    setTimeout(() => {
-      if (categorySelectRef.current) {
-        categorySelectRef.current.focus();
-      }
-    }, 800);
-  };
+ 
 
   return (
     <>
