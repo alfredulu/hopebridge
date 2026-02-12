@@ -119,7 +119,7 @@ function App() {
             </div>
             <div className="footer-bottom">
               <p>
-                © 2014 - 2026 HOPE<span>BRIDGE </span>
+                © 2014 - {new Date().getFullYear()} HOPE<span>BRIDGE </span>
                 FOUNDATION. All rights reserved.
               </p>
             </div>

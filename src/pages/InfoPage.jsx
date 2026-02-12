@@ -67,9 +67,8 @@ const InfoPage = ({ causes, iconMap }) => {
               </div>
             </Link>
             <div className="nav-links">
-              <Link to="/info#about-us">About Us</Link>
+              <Link to="/info#contact-us">Contact Us</Link>
               <Link to="/#causes">Our Programs</Link>
-              <Link to="/info#contact-us">Get Involved</Link>
               <Link to="/#donation-form" className="nav-donate-btn">
                 Donate Now
               </Link>
