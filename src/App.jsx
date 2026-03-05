@@ -12,6 +12,17 @@ function App() {
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const handleSameHashClick = (sectionId) => (event) => {
+    if (
+      window.location.pathname === "/info" &&
+      window.location.hash === `#${sectionId}`
+    ) {
+      event.preventDefault();
+      const element = document.getElementById(sectionId);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const getCleanFirstName = (fullName) => {
     if (!fullName) return "Hero";
     const parts = fullName.split(/[^a-zA-Z]/).filter((part) => part.length > 0);
@@ -97,13 +108,23 @@ function App() {
                     <Link to="/#stats">Impact Reports</Link>
                   </li>
                   <li>
-                    <Link to="/info#contact-us">Get Involved</Link>
+                    <Link
+                      to="/info#contact-us"
+                      onClick={handleSameHashClick("contact-us")}
+                    >
+                      Get Involved
+                    </Link>
                   </li>
                 </ul>
               </div>
               <div className="footer-col">
                 <h4>
-                  <Link to="/info#contact-us">Contact Us</Link>
+                  <Link
+                    to="/info#contact-us"
+                    onClick={handleSameHashClick("contact-us")}
+                  >
+                    Contact Us
+                  </Link>
                 </h4>
 
                 <p>

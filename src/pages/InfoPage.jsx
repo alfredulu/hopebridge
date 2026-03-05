@@ -17,11 +17,21 @@ const InfoPage = ({ causes, iconMap }) => {
   const { hash } = useLocation();
   const [isSending, setIsSending] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSameHashClick = (sectionId) => (event) => {
+    if (hash === `#${sectionId}`) {
+      event.preventDefault();
+      scrollToSection(sectionId);
+    }
+  };
 
   useEffect(() => {
     if (hash) {
-      const element = document.getElementById(hash.replace("#", ""));
-      if (element) element.scrollIntoView({ behavior: "smooth" });
+      scrollToSection(hash.replace("#", ""));
     }
   }, [hash]);
 
@@ -67,7 +77,12 @@ const InfoPage = ({ causes, iconMap }) => {
               </div>
             </Link>
             <div className="nav-links">
-              <Link to="/info#contact-us">Contact Us</Link>
+              <Link
+                to="/info#contact-us"
+                onClick={handleSameHashClick("contact-us")}
+              >
+                Contact Us
+              </Link>
               <Link to="/#causes">Our Programs</Link>
               <Link to="/#donation-form" className="nav-donate-btn">
                 Donate Now
