@@ -119,8 +119,8 @@ function App() {
             </div>
             <div className="footer-bottom">
               <p>
-                © 2014 - {new Date().getFullYear()} HOPE<span>BRIDGE </span>
-                FOUNDATION. All rights reserved.
+                © 2014 - {new Date().getFullYear()} DESIGNING SCRIPTS. All
+                rights reserved.
               </p>
             </div>
           </div>
