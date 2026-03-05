@@ -12,9 +12,9 @@ function App() {
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSameHashClick = (sectionId) => (event) => {
+  const handleSameHashClick = (path, sectionId) => (event) => {
     if (
-      window.location.pathname === "/info" &&
+      window.location.pathname === path &&
       window.location.hash === `#${sectionId}`
     ) {
       event.preventDefault();
@@ -99,18 +99,33 @@ function App() {
                 <h4>Quick Links</h4>
                 <ul>
                   <li>
-                    <Link to="/info#about-us">About Us</Link>
+                    <Link
+                      to="/info#about-us"
+                      onClick={handleSameHashClick("/info", "about-us")}
+                    >
+                      About Us
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/#causes">Our Programs</Link>
+                    <Link
+                      to="/#causes"
+                      onClick={handleSameHashClick("/", "causes")}
+                    >
+                      Our Programs
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/#stats">Impact Reports</Link>
+                    <Link
+                      to="/#stats"
+                      onClick={handleSameHashClick("/", "stats")}
+                    >
+                      Impact Reports
+                    </Link>
                   </li>
                   <li>
                     <Link
                       to="/info#contact-us"
-                      onClick={handleSameHashClick("contact-us")}
+                      onClick={handleSameHashClick("/info", "contact-us")}
                     >
                       Get Involved
                     </Link>
@@ -121,7 +136,7 @@ function App() {
                 <h4>
                   <Link
                     to="/info#contact-us"
-                    onClick={handleSameHashClick("contact-us")}
+                    onClick={handleSameHashClick("/info", "contact-us")}
                   >
                     Contact Us
                   </Link>
